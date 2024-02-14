@@ -6,25 +6,36 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"></head>
 <body> 
-    <nav class="navbar navbar-expand-sm navbar-light bg-light d-flex justify-content-around">
-        <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-        
-            <div class="collapse navbar-collapse" id="collapsibleNavId">
-                <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+            <a class="navbar-brand" href="#">
+            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap Logo" width="30" height="24" class="d-inline-block align-text-top"> TT Resources Mngr
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" aria-current="page">Home
-                            <span class="visually-hidden">(current)</span></a>
+                        <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Add</a>
+                        <a class="nav-link" href="{{route('add')}}">Add</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Collection</a>
+                        <a class="nav-link" href="{{route('collection')}}">Collection</a>
                     </li>
-                    
                 </ul>
-                
+                <!-- Right side 
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sign Up</a>
+                    </li>
+                </ul>-->
             </div>
         </div>
     </nav>
