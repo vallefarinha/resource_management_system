@@ -28,7 +28,8 @@
             </div>
         </div>
     </nav>
- 
+    
+ @yield('navbar')
 
 
     
