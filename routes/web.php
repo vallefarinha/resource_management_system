@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ResourcesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::controller(ResourcesController::class)->group(function() {
+    Route::get('/',  'home' )-> name ('home');
+    Route::get('/add', 'add')-> name ('add');
+    Route::get('/collection', 'collection')-> name ('collection');
+    Route::get('/resource', 'resource')-> name ('resource');
 
-Route::get('/', function () {
-    return view('welcome');
+    //Route::get('blog/{slug}', 'post' ) -> name ('post');
 });
