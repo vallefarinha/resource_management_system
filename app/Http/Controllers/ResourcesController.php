@@ -72,9 +72,9 @@ class ResourcesController extends Controller
 
 
     if ($resource->save()) {
-        return redirect()->route('store_resource')->with('success', 'Operação realizada com sucesso!');
+        return redirect()->route('store_resource')->with('success', 'Your file was sent');
     } else {
-        return redirect()->route('store_resource')->with('error', 'Ops! Ocorreu um erro ao salvar o recurso.')->withErrors($resource->errors());
+        return redirect()->route('store_resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
     }
 }
 
