@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('id_type')->references('id')->on('types')->onDelete('cascade');
             $table->unsignedBigInteger('id_tag');
             $table->foreign('id_tag')->references('id')->on('tags')->onDelete('cascade');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
     }
 
