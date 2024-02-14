@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('navbar');
+Route::controller(ResourcesController::class)->group(function() {
+    Route::get('/',  'home' )-> name ('home');
+    Route::get('/add', 'add')-> name ('add');
+    Route::get('/collection', 'collection')-> name ('collection');
+    Route::get('/resource', 'resource')-> name ('resource');
+
+    //Route::get('blog/{slug}', 'post' ) -> name ('post');
 });
