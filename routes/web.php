@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\ResourcesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResourcesController;
 /*
@@ -18,5 +18,14 @@ Route::controller(ResourcesController::class)->group(function() {
     Route::get('/collection', 'collection')-> name ('collection');
     Route::get('/resource', 'resource')-> name ('resource');
 
+<<<<<<< HEAD
+=======
+Route::controller(ResourcesController::class)->group(function() {
+    Route::get('/',  'home' )-> name ('home');
+    Route::get('/add', 'add')-> name ('add');
+    Route::get('/collection', 'collection')-> name ('collection');
+    Route::get('/resource', 'resource')-> name ('resource');
+
+>>>>>>> 5ed5a95e2704c27ca2ff0c604d4b6bc8a3ad0932
     //Route::get('blog/{slug}', 'post' ) -> name ('post');
 });
