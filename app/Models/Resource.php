@@ -36,4 +36,9 @@ class Resource extends Model
     {
         return $this->hasOne(Tag::class, 'id_tag');  
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_user');  
+    }
 }
