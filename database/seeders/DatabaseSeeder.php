@@ -31,9 +31,9 @@ class DatabaseSeeder extends Seeder
 
         // Crear 10 instancias aleatorias del modelo User
         User::factory(10)->create();
+        Resource::factory(10)->create();
         Extra::factory(20)->create();
 
         // Crear 10 instancias aleatorias del modelo Resource
-        Resource::factory(10)->create();
     }
 }
