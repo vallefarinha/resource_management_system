@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     
-    public function tags()
+    public function tag()
     {
         return $this->hasOne(Resource::class, 'id_tag');
     }
 
     public function extra()
     {
-        return $this->hasMany(Extra::class, 'id_extra');  // muchas o no?
+        return $this->hasOne(Extra::class, 'id_extra'); 
     }
     
 }
