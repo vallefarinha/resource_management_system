@@ -1,18 +1,12 @@
 <?php
-
+use App\Http\Controllers\ResourcesController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('web')->group(function () {
+    Route::get('/', [ResourcesController::class, 'home'])->name('home');
+    Route::get('/add', [ResourcesController::class, 'add'])->name('add');
+    Route::post('/add', [ResourcesController::class, 'store'])->name('store_resource');
+    Route::get('/collection', [ResourcesController::class, 'collection'])->name('collection');
+    Route::get('/resource', [ResourcesController::class, 'resource'])->name('resource');
 });
