@@ -34,7 +34,7 @@ class Resource extends Model
 
     public function user()
     {
-        return $this->belongsTo(Tag::class, 'id_user');  
+        return $this->belongsTo(User::class, 'id_user');  
         
     }
 // el PK de nuestra tabla es FK de extra
