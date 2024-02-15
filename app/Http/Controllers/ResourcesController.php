@@ -8,14 +8,7 @@ use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
 use App\Models\Resource;
-use Illuminate\Support\Facades\DB;
-
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
-use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Services\DataTable;
+use App\DataTables\CollectionDataTable;
 
 class ResourcesController extends Controller
 {
@@ -40,6 +33,10 @@ class ResourcesController extends Controller
         $collection = Resource::with('tag', 'type', 'user')->get();
            return view('collection', ['collections'=>$collection]);
     }
+
+    // public function datatable(CollectionDataTable $dataTable){
+    //     return $dataTable->render('collection');
+    //     }
 
     //resource
     public function resource($id)

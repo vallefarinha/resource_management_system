@@ -29,27 +29,18 @@ class Resource extends Model
 
    public function tag()
     {
-        return $this->belongsTo(Tag::class, 'id_tag');  
+        return $this->belongsTo(Tag::class, 'id_tag');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');  
-        
+        return $this->belongsTo(User::class, 'id_user');
+
     }
 // el PK de nuestra tabla es FK de extra
     public function extra()
     {
-        return $this->hasMany(Extra::class, 'id_extra'); 
+        return $this->hasMany(Extra::class, 'id_extra');
 
     }
-<<<<<<< HEAD
-
-    public function tag()
-    {
-        return $this->hasOne(Tag::class, 'id_tag');
-    }
 }
-=======
-}
->>>>>>> 18ddcd93a6622ae35a19fffa754f5cb694871734
