@@ -14,7 +14,7 @@ class Extra extends Model
         'id_tag', 
         'id_resource'
     ];
-
+// son claves foraneas de la tablas tag y resources
     public function tag()
     {
         return $this->belongsTo(Tag::class, 'id_tag');

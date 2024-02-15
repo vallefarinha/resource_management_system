@@ -29,4 +29,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+      // su clave primaria esta realcionada con la clave id_user  en tabla resources
+      public function resource()
+    {
+        return $this->hasOne(Resource::class, 'id_user');
+    }
+}
 }
