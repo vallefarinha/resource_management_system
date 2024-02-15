@@ -28,12 +28,12 @@ class Resource extends Model
 
     public function extra()
     {
-        return $this->hasMany(Extra::class, 'id_extra');  // muchas o no?
-        
+        return $this->hasMany(Extra::class, 'id_extra'); 
+
     }
 
     public function tag()
     {
-        return $this->hasOne(Tag::class, 'id_tag');  
+        return $this->hasOne(Tag::class, 'id_tag');
     }
 }

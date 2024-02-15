@@ -9,12 +9,19 @@ use App\Models\Tag;
 use App\Models\Type;
 use App\Models\Resource;
 
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Services\DataTable;
+
 class ResourcesController extends Controller
 {
     //home
     public function home()
     {
-        return View('home');
+        return view('home');
     }
 
     //add
@@ -27,9 +34,17 @@ class ResourcesController extends Controller
     }
 
     //collection
-    public function collection()
+    public function collection(Request $request)
     {
-        return View('collection');
+        $query = Resource::query();
+
+        if ($request->has('filtro')) {
+            $query->where('campo', 'like', '%' . $request->filtro . '%');
+        }
+
+        $data = $query->paginate(10);
+
+        return response()->json($data);
     }
 
     //resource
@@ -41,22 +56,14 @@ class ResourcesController extends Controller
 
     public function store(Request $request)
     {
-        // Validação dos dados recebidos
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'id_type' => 'required|integer',
             'id_tag' => 'required|integer',
             'id_user' => 'required|integer',
             'link' => 'required|file',
-        ], [
-            // Mensagens de erro personalizadas, se desejar
-            'title.required' => 'O campo título é obrigatório.',
-            'id_type.required' => 'O campo tipo é obrigatório.',
-            'id_tag.required' => 'O campo tag é obrigatório.',
-            'id_user.required' => 'O campo usuário é obrigatório.',
-            'link.required' => 'O campo link é obrigatório.',
-            'link.file' => 'O campo link deve ser um arquivo.',
         ]);
+
         if (in_array(null, $validatedData, true)) {
             return redirect()->route('add')->with('error', 'Por favor, preencha todos os campos.');
         }
