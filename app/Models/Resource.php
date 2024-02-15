@@ -21,19 +21,26 @@ class Resource extends Model
 
     public $timestamps = false;
 
+    // tiene campos que son foraneas relacionados con claves primarias de tabla tag, extra y user
     public function type()
     {
-        return $this->hasOne(Type::class, 'id_type');
+        return $this->belongsTo(Type::class, 'id_type');
     }
 
+   public function tag()
+    {
+        return $this->belongsTo(Tag::class, 'id_tag');  
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');  
+        
+    }
+// el PK de nuestra tabla es FK de extra
     public function extra()
     {
         return $this->hasMany(Extra::class, 'id_extra');  // muchas o no?
         
-    }
-
-    public function tag()
-    {
-        return $this->hasOne(Tag::class, 'id_tag');  
     }
 }

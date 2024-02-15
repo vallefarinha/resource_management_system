@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
 use App\Models\Resource;
+use Illuminate\Support\Facades\DB;
 
 class ResourcesController extends Controller
 {
@@ -33,10 +34,16 @@ class ResourcesController extends Controller
     }
 
     //resource
-    public function resource()
-    {
-        return View('resource');
+    public function resource($id)
+{
+    $resource = Resource::with('tag', 'type', 'user')->find($id);
+
+    if (!$resource) {
+        return redirect()->route('resource')->with('error', 'This file is not found!');
     }
+
+    return view('resource', ['resource' => $resource]);
+}
 
 
     public function store(Request $request)
