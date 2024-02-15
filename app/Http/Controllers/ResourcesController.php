@@ -34,17 +34,10 @@ class ResourcesController extends Controller
     }
 
     //collection
-    public function collection(Request $request)
+    public function collection()
     {
-        $query = Resource::query();
-
-        if ($request->has('filtro')) {
-            $query->where('campo', 'like', '%' . $request->filtro . '%');
-        }
-
-        $data = $query->paginate(10);
-
-        return response()->json($data);
+        $collection = Resource::with('tag', 'type', 'user')->get();
+           return view('collection', ['collections'=>$collection]);
     }
 
     //resource

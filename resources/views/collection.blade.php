@@ -12,42 +12,31 @@
     @extends('navbar')
 
     @section('view')
-    <table id="tabela-dados">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Coluna 1</th>
-                <th>Coluna 2</th>
-                <!-- Adicione mais colunas conforme necessário -->
+
+                <th scope="col">Tag</th>
+                <th scope="col">Type</th>
+                <th scope="col">Number of resources</th>
+                <th scope="col">Date of creation</th>
             </tr>
         </thead>
         <tbody>
+            @foreach($collections as $collection)
+            <tr>
+                <th scope="row"></th>
+                <td>{{$collection->tag->tag_name}}</td>
+                <td>{{$collection->type->type_name}}</td>
+                <td>{{$collection->title}}</td>
+                <td>{{$collection->->user->name}}</td>
+                <td>{{$collection->->user->name}}</td>
+                <td>{{$collection->created_at}}</td>
+            </tr>
+            @endforeach
         </tbody>
     </table>
-
-    <script>
-    $(document).ready(function() {
-        $('#tabela-dados').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '/dados',
-            columns: [{
-                    data: 'campo1',
-                    name: 'campo1'
-                },
-                {
-                    data: 'campo2',
-                    name: 'campo2'
-                },
-                // Adicione mais colunas conforme necessário
-            ]
-        });
-    });
-    </script>
-    @en
-    dse
-    ction
     @endsection
-
 </body>
 
 </html>
