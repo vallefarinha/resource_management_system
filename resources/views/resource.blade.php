@@ -10,22 +10,23 @@
 
     @section('navbar')
     <div class="card text-center">
-        <div class="card-header">
-        {{$resources->id_type->type_name}}
-        {{$resources->id_tag->tag_name}}
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">{{$resources->title}}</h5>
-            <p class="card-text">{{$resources->id_user->name}}</p>
-            <p class="card-text">{{$resources->link}}</p>
-            <a href="#" class="btn btn-success">DOWNLOAD</a>
-            <a href="#" class="btn btn-primary">EDIT</a>
-            <a href="#" class="btn btn-danger">DELETE</a>
-        </div>
-        <div class="card-footer text-body-secondary">
-        {{$resources->created_at}}
-        </div>
+    <div class="card-header">
+        {{ $resource->type->type_name }}
+        {{ $resource->tag->tag_name }}
     </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ $resource->title }}</h5>
+        <p class="card-text">{{ $resource->user->name }}</p>
+        <p class="card-text">{{ $resource->link }}</p>
+        <a href="#" class="btn btn-success">DOWNLOAD</a>
+        <a href="#" class="btn btn-primary">EDIT</a>
+        <a href="#" class="btn btn-danger">DELETE</a>
+    </div>
+    <div class="card-footer text-body-secondary">
+        {{ $resource->created_at }}
+    </div>
+</div>
+
     @endsection
 </body>
 </html>

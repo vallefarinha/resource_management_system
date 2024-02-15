@@ -32,6 +32,6 @@ class User extends Authenticatable
     
     public function resource()
     {
-        return $this->hasOne(Resource::class, 'id_user');
+        return $this->hasMany(Resource::class, 'id_user');
     }
 }

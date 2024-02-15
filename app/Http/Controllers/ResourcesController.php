@@ -35,12 +35,15 @@ class ResourcesController extends Controller
 
     //resource
     public function resource($id)
-    {
-        $resources = Resource::with('tag', 'type', 'user') -> find($id);
-        if(!$id){
-            return redirect()->route('resource') -> with('error', 'This file is not found!');
-        } return view('resource', ['resources' => $resources]);
+{
+    $resource = Resource::with('tag', 'type', 'user')->find($id);
+
+    if (!$resource) {
+        return redirect()->route('resource')->with('error', 'This file is not found!');
     }
+
+    return view('resource', ['resource' => $resource]);
+}
 
 
     public function store(Request $request)
