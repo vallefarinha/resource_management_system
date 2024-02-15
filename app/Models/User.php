@@ -29,4 +29,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function resource()
+    {
+        return $this->hasOne(Resource::class, 'id_user');
+    }
 }

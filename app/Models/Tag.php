@@ -11,13 +11,14 @@ class Tag extends Model
         'tag_name',
     ];
 
-    public function tag()
+// su clave primaria esta realcionada con la clave id tag  en tabla resources y extra
+    public function resource()
     {
         return $this->hasOne(Resource::class, 'id_tag');
     }
 
     public function extra()
     {
-        return $this->hasOne(Extra::class, 'id_extra'); 
+        return $this->hasOne(Extra::class, 'id_tag'); 
     }
 }

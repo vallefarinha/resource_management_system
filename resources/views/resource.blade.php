@@ -11,11 +11,12 @@
     @section('navbar')
     <div class="card text-center">
         <div class="card-header">
-        {{$resources->id_type}}
+        {{$resources->id_type->type_name}}
+        {{$resources->id_tag->tag_name}}
         </div>
         <div class="card-body">
             <h5 class="card-title">{{$resources->title}}</h5>
-            <p class="card-text">{{$resources->id_user}}</p>
+            <p class="card-text">{{$resources->id_user->name}}</p>
             <p class="card-text">{{$resources->link}}</p>
             <a href="#" class="btn btn-success">DOWNLOAD</a>
             <a href="#" class="btn btn-primary">EDIT</a>
