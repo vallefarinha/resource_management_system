@@ -9,4 +9,6 @@ Route::middleware('web')->group(function () {
     Route::post('/add', [ResourcesController::class, 'store'])->name('store_resource');
     Route::get('/collection', [ResourcesController::class, 'collection'])->name('collection');
     Route::get('/resource/{id}', [ResourcesController::class, 'resource'])->name('resource');
+    Route::get('/resource/{id}', [ResourcesController::class, 'delete'])->name('delete');
+   // Route::get('/resource/{id}', [ResourcesController::class, 'edit'])->name('edit');
 });

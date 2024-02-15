@@ -118,8 +118,16 @@ class ResourcesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(string $id)
+    public function delete($id)
     {
-        //
+        $resource = Resource::find($id);
+    
+        if (!$resource) {
+            return redirect()->route('delete')->with('error', 'This file is not found!');
+        }
+        $resource -> delete();
+            return redirect()->route('home')->with('success', 'File deleted successfully!');
+
     }
+    
 }

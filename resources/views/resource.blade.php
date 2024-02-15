@@ -19,8 +19,8 @@
         <p class="card-text">{{ $resource->user->name }}</p>
         <p class="card-text">{{ $resource->link }}</p>
         <a href="#" class="btn btn-success">DOWNLOAD</a>
-        <a href="#" class="btn btn-primary">EDIT</a>
-        <a href="#" class="btn btn-danger">DELETE</a>
+        <a href="{{route('edit')}}" class="btn btn-primary">EDIT</a>
+        <a href="{{route('delete')}}" class="btn btn-danger">DELETE</a>
     </div>
     <div class="card-footer text-body-secondary">
         {{ $resource->created_at }}
