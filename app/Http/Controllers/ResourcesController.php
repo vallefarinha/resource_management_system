@@ -12,46 +12,41 @@ use App\DataTables\CollectionDataTable;
 
 class ResourcesController extends Controller
 {
-    //home
-    public function home()
-    {
-        return view('home');
+        //home
+    public function home(){
+            return view('home');
+        }
+
+        //add
+    public function add(){
+            $users = User::all();
+            $tags = Tag::all();
+            $types = Type::all();
+            return view('add', compact('users', 'tags', 'types'));
+        }
+
+        //collection
+    public function collection(){
+            $collection = Resource::with('tag', 'type', 'user')->get();
+            return view('collection', ['collections'=>$collection]);
+        }
+
+        // public function datatable(CollectionDataTable $dataTable){
+        //     return $dataTable->render('collection');
+        //     }
+
+        //resource
+    public function resource(Resource $resource){
+
+        if (!$resource) {
+            return redirect()->route('collection')->with('error', 'Este arquivo não foi encontrado!');
+        }
+
+        return view('resource', ['resource' => $resource]);
     }
 
-    //add
-    public function add()
-    {
-        $users = User::all();
-        $tags = Tag::all();
-        $types = Type::all();
-        return view('add', compact('users', 'tags', 'types'));
-    }
 
-    //collection
-    public function collection()
-    {
-        $collection = Resource::with('tag', 'type', 'user')->get();
-           return view('collection', ['collections'=>$collection]);
-    }
-
-    // public function datatable(CollectionDataTable $dataTable){
-    //     return $dataTable->render('collection');
-    //     }
-
-    //resource
-    public function resource(Resource $resource)
-{
-
-    if (!$resource) {
-        return redirect()->route('collection')->with('error', 'Este arquivo não foi encontrado!');
-    }
-
-    return view('resource', ['resource' => $resource]);
-}
-
-
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'id_type' => 'required|integer',
@@ -63,59 +58,75 @@ class ResourcesController extends Controller
         if (in_array(null, $validatedData, true)) {
             return redirect()->route('add')->with('error', 'Por favor, preencha todos os campos.');
         }
-    $filePath = $request->file('link')->store('uploads');
+        $filePath = $request->file('link')->store('uploads');
 
-    $resource = new Resource();
-    $resource->title = $validatedData['title'];
-    $resource->id_type = $validatedData['id_type'];
-    $resource->id_tag = $validatedData['id_tag'];
-    $resource->id_user = $validatedData['id_user'];
-    $resource->link = $filePath;
+        $resource = new Resource();
+        $resource->title = $validatedData['title'];
+        $resource->id_type = $validatedData['id_type'];
+        $resource->id_tag = $validatedData['id_tag'];
+        $resource->id_user = $validatedData['id_user'];
+        $resource->link = $filePath;
 
-
-
-    if ($resource->save()) {
-        return redirect()->route('store_resource')->with('success', 'Your file was sent');
-    } else {
-        return redirect()->route('store_resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+        if ($resource->save()) {
+            return redirect()->route('store_resource')->with('success', 'Your file was sent');
+        } else {
+            return redirect()->route('store_resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+        }
     }
+
+        // public function index()
+        // {
+        //     // Teste para verificar se os dados estão sendo recuperados corretamente
+        //     $tags = Tag::all();
+        //     dd($tags); // Isso irá imprimir os dados recuperados na tela para verificar
+
+        //     // Se os dados estão sendo exibidos corretamente, passe-os para a vista
+        //     return view('add', compact('tags'));
+        // }
+
+        /**
+         * Store a newly created resource in storage.
+         */
+        /**
+         * Display the specified resource.
+         */
+    public function show(string $id){
+        //
+    }
+
+   // Método para mostrar el formulario de edición
+   public function edit($id)
+   {
+    $resource = Resource::findOrFail($id);
+    $users = User::all();
+    $tags = Tag::all();
+    $types = Type::all(); // Obtén todos los tipos para el formulario de edición
+    return view('edit', compact('resource', 'users', 'tags', 'types'));
+   }
+   
+
+// Method to update the resource
+public function update(Request $request, $id)
+{
+    $resource = Resource::findOrFail($id);
+    
+    // Valida los datos del formulario de actualización
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255',
+        // Agrega aquí las validaciones para otros campos que necesites
+    ]);
+
+    // Actualiza los campos del recurso con los datos del formulario
+    $resource->update($validatedData);
+
+    // Redirecciona a la vista del propio recurso después de actualizarlo
+    return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Recurso actualizado correctamente.');
 }
-
-
-    // public function index()
-    // {
-    //     // Teste para verificar se os dados estão sendo recuperados corretamente
-    //     $tags = Tag::all();
-    //     dd($tags); // Isso irá imprimir os dados recuperados na tela para verificar
-
-    //     // Se os dados estão sendo exibidos corretamente, passe-os para a vista
-    //     return view('add', compact('tags'));
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete($id)
-    {
+    public function delete($id){
         $resource = Resource::find($id);
 
         if (!$resource) {
