@@ -3,7 +3,7 @@
 @section('view')
 <div class="container">
     <h1 class="m-5">Edit Resource</h1>
-    <form class="row g-3 m-5" action="{{ route('resources.update', ['id' => $resource->id]) }}" method="POST" enctype="multipart/form-data">
+    <form class="row g-3 m-5" action="{{ route('resource.update', ['id' => $resource->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT') {{-- O usa @method('PATCH') dependiendo de tu configuración --}}
         <div class="col-8">

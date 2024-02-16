@@ -19,7 +19,7 @@
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
             <p class="card-text">{{ $resource->link }}</p>
-            <form method="GET" action="{{ route('resources.edit', ['id' => $resource->id]) }}">
+            <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
                 @csrf
                 <button type="submit" class="btn btn-success">EDIT</button>
             </form>
