@@ -110,14 +110,9 @@ public function update(Request $request, $id)
 {
     $resource = Resource::findOrFail($id);
     
-    // Valida los datos del formulario de actualización
-    $validatedData = $request->validate([
-        'title' => 'required|string|max:255',
-        // Agrega aquí las validaciones para otros campos que necesites
-    ]);
 
     // Actualiza los campos del recurso con los datos del formulario
-    $resource->update($validatedData);
+    $resource->update($request->all());
 
     // Redirecciona a la vista del propio recurso después de actualizarlo
     return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Recurso actualizado correctamente.');
