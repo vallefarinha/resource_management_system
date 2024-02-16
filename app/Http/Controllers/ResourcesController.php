@@ -39,12 +39,11 @@ class ResourcesController extends Controller
     //     }
 
     //resource
-    public function resource($id)
+    public function resource(Resource $resource)
 {
-    $resource = Resource::with('tag', 'type', 'user')->find($id);
 
     if (!$resource) {
-        return redirect()->route('resource')->with('error', 'This file is not found!');
+        return redirect()->route('collection')->with('error', 'Este arquivo não foi encontrado!');
     }
 
     return view('resource', ['resource' => $resource]);
@@ -123,7 +122,7 @@ class ResourcesController extends Controller
             return redirect()->route('resource.delete')->with('error', 'This file is not found!');
         }
         $resource -> delete();
-            return redirect()->route('home')->with('success', 'File deleted successfully!');
+            return redirect()->route('collection')->with('success', 'File deleted successfully!');
 
     }
 

@@ -26,11 +26,11 @@
             @foreach($collections as $collection)
             <tr>
                 <td>
-                    <a href="{{ route('resource', ['id' => $collection->id]) }}">
+                    <a href="{{ route('resource.resource', ['resource' => $collection->id]) }}">
                         {{ $collection->tag->tag_name }}
                     </a>
                 </td>
-                <td> <a href="{{ route('resource', ['id' => $collection->id]) }}">
+                <td> <a href="{{ route('resource.resource', ['resource' => $collection->id]) }}">
                         {{ $collection->type->type_name }}
                     </a>
                 </td>
