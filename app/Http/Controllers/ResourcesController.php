@@ -31,19 +31,19 @@ class ResourcesController extends Controller
     public function collection()
     {
         $collection = Resource::with('tag', 'type', 'user')->get();
-           return view('collection', ['collections'=>$collection]);
+        return view('collection', ['collections' => $collection]);
     }
 
     //resource
     public function resource(Resource $resource)
-{
+    {
 
-    if (!$resource) {
-        return redirect()->route('collection')->with('error', 'Este arquivo não foi encontrado!');
+        if (!$resource) {
+            return redirect()->route('collection')->with('error', 'Este arquivo não foi encontrado!');
+        }
+
+        return view('resource', ['resource' => $resource]);
     }
-
-    return view('resource', ['resource' => $resource]);
-}
 
 
     public function store(Request $request)
@@ -59,57 +59,27 @@ class ResourcesController extends Controller
         if (in_array(null, $validatedData, true)) {
             return redirect()->route('add')->with('error', 'Por favor, preencha todos os campos.');
         }
-    $filePath = $request->file('link')->store('uploads');
+        $filePath = $request->file('link')->store('uploads');
 
-    $resource = new Resource();
-    $resource->title = $validatedData['title'];
-    $resource->id_type = $validatedData['id_type'];
-    $resource->id_tag = $validatedData['id_tag'];
-    $resource->id_user = $validatedData['id_user'];
-    $resource->link = $filePath;
+        $resource = new Resource();
+        $resource->title = $validatedData['title'];
+        $resource->id_type = $validatedData['id_type'];
+        $resource->id_tag = $validatedData['id_tag'];
+        $resource->id_user = $validatedData['id_user'];
+        $resource->link = $filePath;
 
-
-
-    if ($resource->save()) {
-        return redirect()->route('store_resource')->with('success', 'Your file was sent');
-    } else {
-        return redirect()->route('store_resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+        if ($resource->save()) {
+            return redirect()->route('store_resource')->with('success', 'Your file was sent');
+        } else {
+            return redirect()->route('store_resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+        }
     }
-}
 
-
-    // public function index()
-    // {
-    //     // Teste para verificar se os dados estão sendo recuperados corretamente
-    //     $tags = Tag::all();
-    //     dd($tags); // Isso irá imprimir os dados recuperados na tela para verificar
-
-    //     // Se os dados estão sendo exibidos corretamente, passe-os para a vista
-    //     return view('add', compact('tags'));
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function download(Resource $resource)
     {
-        //
+        return response()->download(storage_path('uploads/' . basename($resource->link)));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function delete($id)
     {
         $resource = Resource::find($id);
@@ -117,9 +87,7 @@ class ResourcesController extends Controller
         if (!$resource) {
             return redirect()->route('resource.delete')->with('error', 'This file is not found!');
         }
-        $resource -> delete();
-            return redirect()->route('collection')->with('success', 'File deleted successfully!');
-
+        $resource->delete();
+        return redirect()->route('collection')->with('success', 'File deleted successfully!');
     }
-
 }

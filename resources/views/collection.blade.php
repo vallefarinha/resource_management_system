@@ -5,14 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TT Resources Manager</title>
+    <style>
+    .table-hover tbody tr:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        background-color: rgba(0, 0, 255, 0.1);
+        cursor: pointer;
 
+    }
+    </style>
 </head>
 
 <body>
     @extends('navbar')
     @section('view')
     <div class="container pt-3">
-        <table id="collection" class="table table-striped">
+        <table id="collection" class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th scope="col">Tag</th>
@@ -24,16 +32,10 @@
             </thead>
             <tbody>
                 @foreach($collections as $collection)
-                <tr>
-                    <td>
-                        <a href="{{ route('resource.resource', ['resource' => $collection->id]) }}">
-                            {{ $collection->tag->tag_name }}
-                        </a>
-                    </td>
-                    <td> <a href="{{ route('resource.resource', ['resource' => $collection->id]) }}">
-                            {{ $collection->type->type_name }}
-                        </a>
-                    </td>
+                <tr class="cursor-pointer"
+                    onclick="window.location='{{ route('resource.resource', ['resource' => $collection->id]) }}'">
+                    <td>{{ $collection->tag->tag_name }}</td>
+                    <td>{{ $collection->type->type_name }}</td>
                     <td>{{ $collection->title }}</td>
                     <td>{{ $collection->countTotalExtras() }}</td>
                     <td>{{ $collection->created_at }}</td>
@@ -57,7 +59,33 @@
         });
     });
     </script>
+    <!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rows = document.querySelectorAll('.cursor-pointer');
+        rows.forEach(row => {
+            row.addEventListener('mouseover', function() {
+                this.style.backgroundColor = 'rgba(0, 0, 255, 0.1)';
+                this.style.transition = 'background-color 0.5s ease';
+            });
+            row.addEventListener('mouseout', function() {
+                this.style.backgroundColor = 'transparent';
+                this.style.transition = 'background-color 0.5s ease';
+            });
+            row.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                window.location.href = url;
+            });
+        });
+    });
+    </script> -->
 </body>
+
+
+
+
+
+
+
 
 
 
