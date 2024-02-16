@@ -129,8 +129,8 @@ class ResourcesController extends Controller
         $validatedData = $request->validate([
             'extra_name' => 'required|string|max:255',
             'extra_link' => 'required|url',
-            'id_tag' => 'required|exists:tags,id', // Cambiado de 'extras' a 'tags'
-            'id_resource' => 'required|exists:resources,id', // Cambiado de 'extras' a 'resources'
+            'id_tag' => 'required|exists:tags,id', 
+            'id_resource' => 'required|exists:resources,id', 
         ]);
     
         if (in_array(null, $validatedData, true)) {
@@ -141,8 +141,8 @@ class ResourcesController extends Controller
         $extra = new Extra();
         $extra->extra_name = $request->input('extra_name');
         $extra->extra_link = $request->input('extra_link');
-        $extra->id_tag = $request->input('id_tag'); // Usar 'id_tag' según la definición del modelo
-        $extra->id_resource = $request->input('id_resource'); // Usar 'id_resource' según la definición del modelo
+        $extra->id_tag = $request->input('id_tag'); 
+        $extra->id_resource = $request->input('id_resource'); 
         $extra->save();
     
         // Redireccionar con un mensaje de éxito
