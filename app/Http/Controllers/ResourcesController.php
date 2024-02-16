@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
@@ -13,13 +12,13 @@ use App\DataTables\CollectionDataTable;
 
 class ResourcesController extends Controller
 {
-    //home
+    // Show the home view
     public function home()
     {
         return view('home');
     }
 
-    //add
+    // Show the form for adding a new resource
     public function add()
     {
         $users = User::all();
@@ -28,23 +27,22 @@ class ResourcesController extends Controller
         return view('add', compact('users', 'tags', 'types'));
     }
 
-    //collection
+    // Show the collection of resources
     public function collection()
     {
         $collection = Resource::with('tag', 'type', 'user')->get();
-           return view('collection', ['collections'=>$collection]);
+        return view('collection', ['collections' => $collection]);
     }
 
-    //resource
+
+    // Show a single resource
     public function resource(Resource $resource)
-{
-
-    if (!$resource) {
-        return redirect()->route('collection')->with('error', 'Este arquivo não foi encontrado!');
+    {
+        if (!$resource) {
+            return redirect()->route('collection')->with('error', 'This file was not found!');
+        }
+        return view('resource', ['resource' => $resource]);
     }
-
-    return view('resource', ['resource' => $resource]);
-}
 
 
     public function store(Request $request)
@@ -58,63 +56,61 @@ class ResourcesController extends Controller
         ]);
 
         if (in_array(null, $validatedData, true)) {
-            return redirect()->route('add')->with('error', 'Por favor, preencha todos os campos.');
+            return redirect()->route('add')->with('error', 'Please fill in all fields.');
         }
-    $filePath = $request->file('link')->store('uploads');
 
-    $resource = new Resource();
-    $resource->title = $validatedData['title'];
-    $resource->id_type = $validatedData['id_type'];
-    $resource->id_tag = $validatedData['id_tag'];
-    $resource->id_user = $validatedData['id_user'];
-    $resource->link = $filePath;
+        $filePath = $request->file('link')->store('uploads');
 
+        $resource = new Resource();
+        $resource->title = $validatedData['title'];
+        $resource->id_type = $validatedData['id_type'];
+        $resource->id_tag = $validatedData['id_tag'];
+        $resource->id_user = $validatedData['id_user'];
+        $resource->link = $filePath;
 
-
-    if ($resource->save()) {
-        return redirect()->route('store_resource')->with('success', 'Your file was sent');
-    } else {
-        return redirect()->route('store_resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+        if ($resource->save()) {
+            return redirect()->route('store_resource')->with('success', 'Your file was sent');
+        } else {
+            return redirect()->route('store_resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+        }
     }
-}
 
 
-    // public function index()
-    // {
-    //     // Teste para verificar se os dados estão sendo recuperados corretamente
-    //     $tags = Tag::all();
-    //     dd($tags); // Isso irá imprimir os dados recuperados na tela para verificar
-
-    //     // Se os dados estão sendo exibidos corretamente, passe-os para a vista
-    //     return view('add', compact('tags'));
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Show the form for editing a resource
+    public function edit($id)
     {
-        //
+        $resource = Resource::findOrFail($id);
+        $users = User::all();
+        $tags = Tag::all();
+        $types = Type::all();
+        return view('edit', compact('resource', 'users', 'tags', 'types'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Update an existing resource
+    public function update(Request $request, $id)
     {
-        //
+        $resource = Resource::findOrFail($id);
+        $originalData = $resource->toArray();
+        $resource->update($request->all());
+        $updatedData = $resource->toArray();
+
+        if ($originalData === $updatedData) {
+            return redirect()->route('resource.resource', ['resource' => $resource])->with('warning', 'No changes were made.');
+        } else {
+            return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Your resource has successfully updated!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
+  
+  public function download(Resource $resource)
+    {
+        return response()->download(storage_path('uploads/' . basename($resource->link)));
+    }
+
     public function delete($id)
     {
         $resource = Resource::find($id);
-
         if (!$resource) {
             return redirect()->route('resource.delete')->with('error', 'This file is not found!');
         }

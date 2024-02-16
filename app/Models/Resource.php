@@ -51,4 +51,24 @@ class Resource extends Model
     $total += $this->extra()->count();
     return $total;
 }
+
+public function isFile()
+{
+    $fileExtensions = [
+        'jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'tiff', 'webp', 'ico',
+        'mp4', 'avi', 'wmv', 'mov', 'flv', 'mkv', 'webm', 'mpg', 'mpeg', '3gp', 'rm',
+        'mp3', 'wav', 'wma', 'ogg', 'flac', 'aac', 'aiff', 'alac', 'm4a',
+        'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp', 'rtf', 'csv', 'txt',
+        'pdf',
+        'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz',
+        'iso', 'img', 'cue',
+        'csv', 'tsv',
+        'html', 'htm', 'php', 'js', 'css', 'scss', 'less', 'jsx', 'tsx', 'vue',
+        'xml', 'json', 'log',
+    ];
+
+    $linkExtension = pathinfo($this->link, PATHINFO_EXTENSION);
+
+    return in_array(strtolower($linkExtension), $fileExtensions);
+}
 }
