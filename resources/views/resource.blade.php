@@ -8,28 +8,57 @@
 </head>
 
 <body>
+
     @extends('navbar')
 
     @section('view')
+
+    <!-- Success alert message -->
+    @if (session('success'))
+    <div id="liveAlertPlaceholder">
+        <div>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <div>{{ session('success') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <div class="card text-center">
         <div class="card-header">
-            {{ $resource->type->type_name }} ||
-            {{ $resource->tag->tag_name }}
+            {{ $resource->tag->tag_name }} · {{ $resource->type->type_name }}
         </div>
         <div class="card-body">
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
-            <p class="card-text">{{ $resource->link }}
-                @if ($resource->isFile())<a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
-                    class="btn btn-primary rounded-circle ms-2"><i class="fa-solid fa-download"></i></a></p>
+            @if ($resource->isFile())
+            <p class="card-text">{{ $resource->link }}</p>
+            <p class="card-text"><a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
+                    class="btn btn-primary">Download File</a></p>
+            @else
+            <p class="card-text">{{ $resource->link }}</p>
             @endif
-            </p>
-            <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">DELETE</button>
-            </form>
+            <p class="card-text">{{ $resource->link }}</p>
 
+            <!-- Container for edit and delete buttons -->
+            <div class="btn-group" role="group" aria-label="Edit and delete buttons">
+                <!-- EDIT button -->
+                <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
+                    @csrf
+                    <button type="submit" class="btn btn-success">EDIT</button>
+                </form>
+
+                <!-- DELETE button -->
+
+                <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">DELETE</button>
+                </form>
+
+
+            </div>
         </div>
         <div class="card-footer text-body-secondary">
             {{ $resource->created_at }}
@@ -37,6 +66,8 @@
     </div>
 
     @endsection
+
+
 </body>
 
 </html>
