@@ -11,4 +11,6 @@ Route::middleware('web')->group(function () {
     Route::get('/resource/{resource}', [ResourcesController::class, 'resource'])->name('resource.resource');
     Route::delete('/resource/{resource}', [ResourcesController::class, 'delete'])->name('resource.delete');
    // Route::get('/resource/{id}', [ResourcesController::class, 'edit'])->name('resource.edit');
+    
+   Route::post('/resource{resource}', [ResourcesController::class, 'storeExtra'])->name('resource.extra');
 });

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
 use App\Models\Resource;
+use App\Models\Extra;
 use App\DataTables\CollectionDataTable;
 
 class ResourcesController extends Controller
@@ -120,6 +121,32 @@ class ResourcesController extends Controller
         $resource -> delete();
             return redirect()->route('collection')->with('success', 'File deleted successfully!');
 
+    }
+
+    public function storeExtra(Request $request)
+    {
+        // Validar los datos del formulario
+        $validatedData = $request->validate([
+            'extra_name' => 'required|string|max:255',
+            'extra_link' => 'required|url',
+            'id_tag' => 'required|exists:tags,id', // Cambiado de 'extras' a 'tags'
+            'id_resource' => 'required|exists:resources,id', // Cambiado de 'extras' a 'resources'
+        ]);
+    
+        if (in_array(null, $validatedData, true)) {
+            return redirect()->route('resource.extra')->with('error', 'Please add extra link');
+        }
+    
+        // Crear una nueva instancia de Extra y asignar los valores
+        $extra = new Extra();
+        $extra->extra_name = $request->input('extra_name');
+        $extra->extra_link = $request->input('extra_link');
+        $extra->id_tag = $request->input('id_tag'); // Usar 'id_tag' según la definición del modelo
+        $extra->id_resource = $request->input('id_resource'); // Usar 'id_resource' según la definición del modelo
+        $extra->save();
+    
+        // Redireccionar con un mensaje de éxito
+        return redirect()->back()->with('success', 'Extra added successfully!');
     }
 
 }
