@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Resource extends Model
 {
@@ -19,9 +20,23 @@ class Resource extends Model
         'updated_at',
     ];
 
-    public $timestamps = false;
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
 
-    // tiene campos que son foraneas relacionados con claves primarias de tabla tag, extra y user
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y  \-\  H:i');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y   \-\  H:i');
+
+    }
+
     public function type()
     {
         return $this->belongsTo(Type::class, 'id_type');

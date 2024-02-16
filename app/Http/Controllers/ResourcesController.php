@@ -3,17 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Response;
-
-=======
->>>>>>> 2b58adad0e7660c6672b278ae15dadd8752f75fe
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
 use App\Models\Resource;
+
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
 
 class ResourcesController extends Controller
 {

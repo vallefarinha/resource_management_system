@@ -13,7 +13,7 @@
     @section('view')
     <div class="container">
         <h1 class="m-5">Add your contribution</h1>
-        <form class="row g-3 m-5" action="{{ route('store_resource') }}" method="POST" enctype="multipart/form-data">
+        <form class="row g-3 m-5" action="{{ route('store.resource') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="col-8">
                 <label for="title" class="form-label">Title</label>

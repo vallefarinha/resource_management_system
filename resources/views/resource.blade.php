@@ -33,20 +33,21 @@
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
             @if ($resource->isFile())
-            <p class="card-text">{{ $resource->link }}</p>
-            <p class="card-text"><a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
-                    class="btn btn-primary">Download File</a></p>
+            <p class="card-text">{{ $resource->link }}
+                <a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
+                    class="btn btn-primary rounded-circle ms-3"><i class="fa-solid fa-download"></i></a>
+            </p>
             @else
             <p class="card-text">{{ $resource->link }}</p>
             @endif
-            <p class="card-text">{{ $resource->link }}</p>
 
             <!-- Container for edit and delete buttons -->
-            <div class="btn-group" role="group" aria-label="Edit and delete buttons">
+            <div class="btn-group gap-3" role="group" aria-label="Edit and delete buttons">
                 <!-- EDIT button -->
                 <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
                     @csrf
-                    <button type="submit" class="btn btn-success">EDIT</button>
+                    <button type="submit" class="btn btn-success rounded-circle"><i
+                            class="fa-solid fa-pen-to-square"></i></button>
                 </form>
 
                 <!-- DELETE button -->
@@ -54,14 +55,24 @@
                 <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">DELETE</button>
+                    <button type="submit" class="btn btn-warning rounded-circle"><i
+                            class="fa-solid fa-plus"></i></button>
+                </form>
+
+                <!-- Add extra button -->
+
+                <form action="" method="POST">
+                    @csrf
+                    @method('POST')
+                    <button type="submit" class="btn btn-danger rounded-circle"><i
+                            class="fa-solid fa-trash"></i></button>
                 </form>
 
 
             </div>
         </div>
-        <div class="card-footer text-body-secondary">
-            {{ $resource->created_at }}
+        <div class="card-footer text-body-secondary text-end">
+            Created at: {{ $resource->created_at }}
         </div>
     </div>
 
@@ -69,5 +80,7 @@
 
 
 </body>
+
+
 
 </html>
