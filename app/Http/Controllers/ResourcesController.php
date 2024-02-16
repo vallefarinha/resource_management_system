@@ -3,50 +3,47 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
 use App\Models\Resource;
-use App\DataTables\CollectionDataTable;
 
 class ResourcesController extends Controller
 {
-        //home
-    public function home(){
-            return view('home');
-        }
+    // Show the home view
+    public function home()
+    {
+        return view('home');
+    }
 
-        //add
-    public function add(){
-            $users = User::all();
-            $tags = Tag::all();
-            $types = Type::all();
-            return view('add', compact('users', 'tags', 'types'));
-        }
+    // Show the form for adding a new resource
+    public function add()
+    {
+        $users = User::all();
+        $tags = Tag::all();
+        $types = Type::all();
+        return view('add', compact('users', 'tags', 'types'));
+    }
 
-        //collection
-    public function collection(){
-            $collection = Resource::with('tag', 'type', 'user')->get();
-            return view('collection', ['collections'=>$collection]);
-        }
+    // Show the collection of resources
+    public function collection()
+    {
+        $collection = Resource::with('tag', 'type', 'user')->get();
+        return view('collection', ['collections' => $collection]);
+    }
 
-        // public function datatable(CollectionDataTable $dataTable){
-        //     return $dataTable->render('collection');
-        //     }
-
-        //resource
-    public function resource(Resource $resource){
-
+    // Show a single resource
+    public function resource(Resource $resource)
+    {
         if (!$resource) {
-            return redirect()->route('collection')->with('error', 'Este arquivo não foi encontrado!');
+            return redirect()->route('collection')->with('error', 'This file was not found!');
         }
-
         return view('resource', ['resource' => $resource]);
     }
 
-
-    public function store(Request $request) {
+    // Store a new resource
+    public function store(Request $request)
+    {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'id_type' => 'required|integer',
@@ -56,8 +53,9 @@ class ResourcesController extends Controller
         ]);
 
         if (in_array(null, $validatedData, true)) {
-            return redirect()->route('add')->with('error', 'Por favor, preencha todos os campos.');
+            return redirect()->route('add')->with('error', 'Please fill in all fields.');
         }
+
         $filePath = $request->file('link')->store('uploads');
 
         $resource = new Resource();
@@ -74,73 +72,45 @@ class ResourcesController extends Controller
         }
     }
 
-        // public function index()
-        // {
-        //     // Teste para verificar se os dados estão sendo recuperados corretamente
-        //     $tags = Tag::all();
-        //     dd($tags); // Isso irá imprimir os dados recuperados na tela para verificar
-
-        //     // Se os dados estão sendo exibidos corretamente, passe-os para a vista
-        //     return view('add', compact('tags'));
-        // }
-
-        /**
-         * Store a newly created resource in storage.
-         */
-        /**
-         * Display the specified resource.
-         */
-    public function show(string $id){
+    // Show a single resource (not implemented)
+    public function show(string $id)
+    {
         //
     }
 
-   // Método para mostrar el formulario de edición
-   public function edit($id)
-   {
-    $resource = Resource::findOrFail($id);
-    $users = User::all();
-    $tags = Tag::all();
-    $types = Type::all(); // Obtén todos los tipos para el formulario de edición
-    return view('edit', compact('resource', 'users', 'tags', 'types'));
-   }
-   
-
-// Method to update the resource
-public function update(Request $request, $id)
-{
-    $resource = Resource::findOrFail($id);
-    
-    // Obtener los datos originales del recurso
-    $originalData = $resource->toArray();
-    
-    // Actualizar los campos del recurso con los datos del formulario
-    $resource->update($request->all());
-
-    // Obtener los datos actualizados del recurso
-    $updatedData = $resource->toArray();
-
-    // Comprobar si los datos originales son idénticos a los datos actualizados
-    if ($originalData === $updatedData) {
-        // No se han realizado cambios
-        return redirect()->route('resource.resource', ['resource' => $resource])->with('warning', 'No changes were made.');
-    } else {
-        // Se han realizado cambios
-        return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Your resource has successfully updated!');
+    // Show the form for editing a resource
+    public function edit($id)
+    {
+        $resource = Resource::findOrFail($id);
+        $users = User::all();
+        $tags = Tag::all();
+        $types = Type::all();
+        return view('edit', compact('resource', 'users', 'tags', 'types'));
     }
-}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function delete($id){
+    // Update an existing resource
+    public function update(Request $request, $id)
+    {
+        $resource = Resource::findOrFail($id);
+        $originalData = $resource->toArray();
+        $resource->update($request->all());
+        $updatedData = $resource->toArray();
+
+        if ($originalData === $updatedData) {
+            return redirect()->route('resource.resource', ['resource' => $resource])->with('warning', 'No changes were made.');
+        } else {
+            return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Your resource has successfully updated!');
+        }
+    }
+
+    // Delete a resource
+    public function delete($id)
+    {
         $resource = Resource::find($id);
-
         if (!$resource) {
             return redirect()->route('resource.delete')->with('error', 'This file is not found!');
         }
-        $resource -> delete();
-            return redirect()->route('collection')->with('success', 'File deleted successfully!');
-
+        $resource->delete();
+        return redirect()->route('collection')->with('success', 'File deleted successfully!');
     }
-
 }

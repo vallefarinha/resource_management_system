@@ -12,11 +12,9 @@
     
 @section('view')
 
-<!-- Mensaje de alerta de éxito -->
-
+<!-- Success alert message -->
 @if (session('success'))
 <div id="liveAlertPlaceholder">
-
     <div>
         <div class="alert alert-success alert-dismissible" role="alert">
             <div>{{ session('success') }}</div>
@@ -24,7 +22,6 @@
         </div>
     </div>
 </div>
-
 @endif
 
 <div class="card text-center">
@@ -36,15 +33,15 @@
         <p class="card-text">{{ $resource->user->name }}</p>
         <p class="card-text">{{ $resource->link }}</p>
 
-        <!-- Contenedor para los botones -->
-        <div class="btn-group" role="group" aria-label="Botones de edición y eliminación">
-            <!-- Botón de EDIT -->
+        <!-- Container for edit and delete buttons -->
+        <div class="btn-group" role="group" aria-label="Edit and delete buttons">
+            <!-- EDIT button -->
             <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
                 @csrf
                 <button type="submit" class="btn btn-success">EDIT</button>
             </form>
             
-            <!-- Botón de DELETE -->
+            <!-- DELETE button -->
             <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                 @csrf
                 @method('DELETE')
@@ -56,7 +53,6 @@
         {{ $resource->created_at }}
     </div>
 </div>
-
 
 @endsection
 
