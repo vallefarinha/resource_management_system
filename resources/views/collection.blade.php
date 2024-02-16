@@ -35,7 +35,7 @@
                     </a>
                 </td>
                 <td>{{ $collection->title }}</td>
-                <td>{{ $collection->user->name }}</td>
+                <td>{{ $collection->countTotalExtras() }}</td>
                 <td>{{ $collection->created_at }}</td>
             </tr>
             @endforeach
@@ -51,6 +51,7 @@
     });
     </script>
 </body>
+
 
 
 

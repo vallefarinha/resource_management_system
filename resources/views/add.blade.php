@@ -10,7 +10,7 @@
 <body>
     @extends('navbar')
 
-    @section('navbar')
+    @section('view')
     <div class="container">
         <h1 class="m-5">Add your contribution</h1>
         <form class="row g-3 m-5" action="{{ route('store_resource') }}" method="POST" enctype="multipart/form-data">

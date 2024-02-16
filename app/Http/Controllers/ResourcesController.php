@@ -34,10 +34,6 @@ class ResourcesController extends Controller
            return view('collection', ['collections'=>$collection]);
     }
 
-    // public function datatable(CollectionDataTable $dataTable){
-    //     return $dataTable->render('collection');
-    //     }
-
     //resource
     public function resource(Resource $resource)
 {

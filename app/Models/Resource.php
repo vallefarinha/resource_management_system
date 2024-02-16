@@ -37,10 +37,18 @@ class Resource extends Model
         return $this->belongsTo(User::class, 'id_user');
 
     }
-// el PK de nuestra tabla es FK de extra
+
     public function extra()
     {
-        return $this->hasMany(Extra::class, 'id_extra');
+        return $this->hasMany(Extra::class, 'id');
 
     }
+
+    public function countTotalExtras()
+{
+    $total = 1;
+    $extras = $this->extra()->get();
+    $total += $this->extra()->count();
+    return $total;
+}
 }
