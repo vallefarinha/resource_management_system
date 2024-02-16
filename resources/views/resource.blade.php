@@ -30,6 +30,10 @@
             {{ $resource->tag->tag_name }} · {{ $resource->type->type_name }}
         </div>
         <div class="card-body">
+            <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"><i
+                        class="fa-solid fa-rotate-left"></i></a>
+            </div>
+
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
             @if ($resource->isFile())

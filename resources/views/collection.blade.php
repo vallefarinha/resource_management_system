@@ -8,7 +8,7 @@
     <style>
     .table-hover tbody tr:hover {
         transform: scale(1.05);
-        transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        transition: transform 0.5s ease-in-out;
         background-color: rgba(0, 0, 255, 0.1);
         cursor: pointer;
 
