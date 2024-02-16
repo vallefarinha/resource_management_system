@@ -32,6 +32,7 @@ class ResourcesController extends Controller
         return view('collection', ['collections' => $collection]);
     }
 
+
     // Show a single resource
     public function resource(Resource $resource)
     {
@@ -41,7 +42,7 @@ class ResourcesController extends Controller
         return view('resource', ['resource' => $resource]);
     }
 
-    // Store a new resource
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -72,11 +73,6 @@ class ResourcesController extends Controller
         }
     }
 
-    // Show a single resource (not implemented)
-    public function show(string $id)
-    {
-        //
-    }
 
     // Show the form for editing a resource
     public function edit($id)
@@ -103,7 +99,13 @@ class ResourcesController extends Controller
         }
     }
 
-    // Delete a resource
+
+  
+  public function download(Resource $resource)
+    {
+        return response()->download(storage_path('uploads/' . basename($resource->link)));
+    }
+
     public function delete($id)
     {
         $resource = Resource::find($id);
@@ -113,4 +115,6 @@ class ResourcesController extends Controller
         $resource->delete();
         return redirect()->route('collection')->with('success', 'File deleted successfully!');
     }
+
 }
+
