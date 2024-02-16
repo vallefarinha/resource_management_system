@@ -9,8 +9,8 @@
 
 <body>
     @extends('navbar')
-
-    @section('navbar')
+    
+    @section('view')
     <div class="card text-center">
         <div class="card-header">
             {{ $resource->type->type_name }}
@@ -20,24 +20,20 @@
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
             <p class="card-text">{{ $resource->link }}</p>
-
+            
             <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger">DELETE</button>
             </form>
-
-
-
-
+            
         </div>
         <div class="card-footer text-body-secondary">
             {{ $resource->created_at }}
         </div>
     </div>
-
-    @en
-    dsection
+    
+    @endsection
 </body>
 
 </html>
