@@ -18,9 +18,16 @@
         <h5 class="card-title">{{ $resource->title }}</h5>
         <p class="card-text">{{ $resource->user->name }}</p>
         <p class="card-text">{{ $resource->link }}</p>
-        <a href="#" class="btn btn-success">DOWNLOAD</a>
-        <a href="#" class="btn btn-primary">EDIT</a>
-        <a href="#" class="btn btn-danger">DELETE</a>
+      
+        <form action="{{ route('resource.delete', ['id' => $resource->id]) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">DELETE</button>
+        </form>
+
+
+
+
     </div>
     <div class="card-footer text-body-secondary">
         {{ $resource->created_at }}
