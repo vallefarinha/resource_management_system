@@ -110,12 +110,23 @@ public function update(Request $request, $id)
 {
     $resource = Resource::findOrFail($id);
     
-
-    // Actualiza los campos del recurso con los datos del formulario
+    // Obtener los datos originales del recurso
+    $originalData = $resource->toArray();
+    
+    // Actualizar los campos del recurso con los datos del formulario
     $resource->update($request->all());
 
-    // Redirecciona a la vista del propio recurso después de actualizarlo
-    return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Recurso actualizado correctamente.');
+    // Obtener los datos actualizados del recurso
+    $updatedData = $resource->toArray();
+
+    // Comprobar si los datos originales son idénticos a los datos actualizados
+    if ($originalData === $updatedData) {
+        // No se han realizado cambios
+        return redirect()->route('resource.resource', ['resource' => $resource])->with('warning', 'No changes were made.');
+    } else {
+        // Se han realizado cambios
+        return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Your resource has successfully updated!');
+    }
 }
 
     /**
