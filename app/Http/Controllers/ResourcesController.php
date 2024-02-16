@@ -3,22 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
 use App\Models\Resource;
-use App\DataTables\CollectionDataTable;
 
 class ResourcesController extends Controller
 {
-    //home
+    // Show the home view
     public function home()
     {
         return view('home');
     }
 
-    //add
+    // Show the form for adding a new resource
     public function add()
     {
         $users = User::all();
@@ -27,21 +25,20 @@ class ResourcesController extends Controller
         return view('add', compact('users', 'tags', 'types'));
     }
 
-    //collection
+    // Show the collection of resources
     public function collection()
     {
         $collection = Resource::with('tag', 'type', 'user')->get();
         return view('collection', ['collections' => $collection]);
     }
 
-    //resource
+
+    // Show a single resource
     public function resource(Resource $resource)
     {
-
         if (!$resource) {
-            return redirect()->route('collection')->with('error', 'Este arquivo não foi encontrado!');
+            return redirect()->route('collection')->with('error', 'This file was not found!');
         }
-
         return view('resource', ['resource' => $resource]);
     }
 
@@ -57,8 +54,9 @@ class ResourcesController extends Controller
         ]);
 
         if (in_array(null, $validatedData, true)) {
-            return redirect()->route('add')->with('error', 'Por favor, preencha todos os campos.');
+            return redirect()->route('add')->with('error', 'Please fill in all fields.');
         }
+
         $filePath = $request->file('link')->store('uploads');
 
         $resource = new Resource();
@@ -75,7 +73,35 @@ class ResourcesController extends Controller
         }
     }
 
-    public function download(Resource $resource)
+
+    // Show the form for editing a resource
+    public function edit($id)
+    {
+        $resource = Resource::findOrFail($id);
+        $users = User::all();
+        $tags = Tag::all();
+        $types = Type::all();
+        return view('edit', compact('resource', 'users', 'tags', 'types'));
+    }
+
+    // Update an existing resource
+    public function update(Request $request, $id)
+    {
+        $resource = Resource::findOrFail($id);
+        $originalData = $resource->toArray();
+        $resource->update($request->all());
+        $updatedData = $resource->toArray();
+
+        if ($originalData === $updatedData) {
+            return redirect()->route('resource.resource', ['resource' => $resource])->with('warning', 'No changes were made.');
+        } else {
+            return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Your resource has successfully updated!');
+        }
+    }
+
+
+  
+  public function download(Resource $resource)
     {
         return response()->download(storage_path('uploads/' . basename($resource->link)));
     }
@@ -83,11 +109,12 @@ class ResourcesController extends Controller
     public function delete($id)
     {
         $resource = Resource::find($id);
-
         if (!$resource) {
             return redirect()->route('resource.delete')->with('error', 'This file is not found!');
         }
         $resource->delete();
         return redirect()->route('collection')->with('success', 'File deleted successfully!');
     }
+
 }
+
