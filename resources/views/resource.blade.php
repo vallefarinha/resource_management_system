@@ -18,11 +18,7 @@
         <h5 class="card-title">{{ $resource->title }}</h5>
         <p class="card-text">{{ $resource->user->name }}</p>
         <p class="card-text">{{ $resource->link }}</p>
-        <form action="{{ route('resource.edit', ['id' => $resource->id]) }}" method="POST">
-            @csrf
-            @method('EDIT')
-            <button type="submit" class="btn btn-danger">EDIT</button>
-        </form>
+      
         <form action="{{ route('resource.delete', ['id' => $resource->id]) }}" method="POST">
             @csrf
             @method('DELETE')
