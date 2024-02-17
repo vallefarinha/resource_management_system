@@ -12,10 +12,11 @@
 
     @section('view')
     <div class="container">
-        <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"><i
-                    class="fa-solid fa-rotate-left"></i></a>
+        <div class="container d-flex">
+            <a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;">
+                <i class="fa-solid fa-rotate-left" style="font-size: 14px; "></i></a>
         </div>
-
+      
         <h1 class="m-5">Add your contribution</h1>
         <form class="row g-3 m-5" action="{{ route('store.resource') }}" method="POST" enctype="multipart/form-data">
             @csrf
