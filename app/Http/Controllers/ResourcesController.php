@@ -75,9 +75,16 @@ class ResourcesController extends Controller
         }
     }
 
-    public function download(Resource $resource)
+    public function download($id)
     {
-        return response()->download(storage_path('uploads/' . basename($resource->link)));
+        $item = Resource::findOrFail($id);
+
+        if (pathinfo($item->link, PATHINFO_EXTENSION) !== '') {
+            $filePath = public_path($item->link);
+            return response()->download($filePath);
+        } else {
+            return redirect()->away($item->link);
+        }
     }
 
     public function delete($id)

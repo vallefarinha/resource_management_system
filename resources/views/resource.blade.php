@@ -19,13 +19,11 @@
         <div class="card-body">
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
-            @if ($resource->isFile())
-            <p class="card-text">{{ $resource->link }}</p>
-            <p class="card-text"><a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
-                    class="btn btn-primary">Download File</a></p>
-            @else
-            <p class="card-text">{{ $resource->link }}</p>
+            @if($resource->link)
+            <a href="{{ route('resource.download', ['resource' => $resource->id]) }}">Download</a>
             @endif
+
+
 
             <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                 @csrf
