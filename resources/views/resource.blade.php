@@ -30,8 +30,9 @@
             {{ $resource->tag->tag_name }} · {{ $resource->type->type_name }}
         </div>
         <div class="card-body">
-            <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"><i
-                        class="fa-solid fa-rotate-left"></i></a>
+            <div class="container d-flex">
+                <a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;">
+                <i class="fa-solid fa-rotate-left" style="font-size: 14px;"></i></a>
             </div>
 
             <h5 class="card-title">{{ $resource->title }}</h5>
@@ -39,7 +40,7 @@
             @if ($resource->isFile())
             <p class="card-text">{{ $resource->link }}
                 <a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
-                    class="btn btn-primary rounded-circle ms-3"><i class="fa-solid fa-download"></i></a>
+                    class="btn btn-primary rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-download" style="font-size: 14px;"></i></a>
             </p>
             @else
             <p class="card-text">{{ $resource->link }}</p>
@@ -50,24 +51,22 @@
                 <!-- EDIT button -->
                 <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
                     @csrf
-                    <button type="submit" class="btn btn-success rounded-circle"><i
-                            class="fa-solid fa-pen-to-square"></i></button>
+                    <button type="submit" class="btn btn-success rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-pen-to-square" style="font-size: 14px;"></i></button>
                 </form>
 
                 <!-- DELETE button -->
 
-                <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
+                <form action="" method="POST">
                     @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-warning rounded-circle"><i
-                            class="fa-solid fa-plus"></i></button>
+                    @method('POST')
+                    <button type="submit" class="btn btn-warning rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-plus" style="font-size: 14px;"></i></button>
                 </form>
 
                 <!-- Add extra button -->
 
-                <form action="" method="POST">
+                <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                     @csrf
-                    @method('POST')
+                    @method('DELETE')
                     <button type="submit" class="btn btn-danger rounded-circle"><i
                             class="fa-solid fa-trash"></i></button>
                 </form>
