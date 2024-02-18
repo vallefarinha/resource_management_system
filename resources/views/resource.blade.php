@@ -71,7 +71,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                        <form action="{{ route('resource.extra') }}" method="POST">
+                                        <form action="{{ route('resource.extra') }}" method="POST"  onsubmit="document.getElementById('submitButton').disabled = true;">
                                                 @csrf
 														<div class="form-group">
 															<p for="id_tag">Estás añadiendo extras a {{ $resource->title }} </p>
@@ -80,14 +80,18 @@
 															<input type="hidden" name="id_tag" value="{{ $resource->tag->id }}">
 
 															<label for="extra_name">Extra name:</label>
-															<input type="text" class="form-control" id="extra_name" name="extra_name">
+															<input type="text" class="form-control" id="extra_name" name="extra_name" required>
 
 															<label for="extra_link">Extra resource link:</label>
-															<input type="text" class="form-control" id="extra_link" name="extra_link">
+															<input type="url" class="form-control" id="extra_link" name="extra_link"  pattern="(?:www\..+|https?://.+)" 
+                                                                placeholder="http:// or www"
+                                                                required>
 														</div>
 												
 													<div class="modal-footer">
-														<button type="submit" class="btn btn-primary">Submit</button>
+														<button type="submit" class="btn btn-primary"
+                                                        onclick="this.disabled=true; this.form.submit();"
+                                                        >Submit</button>
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 													</div>
 											</form> 

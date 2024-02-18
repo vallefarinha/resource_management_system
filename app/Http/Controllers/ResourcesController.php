@@ -9,6 +9,7 @@ use App\Models\Type;
 use App\Models\Resource;
 use App\Models\Extra;
 use App\DataTables\CollectionDataTable;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -150,12 +151,13 @@ class ResourcesController extends Controller
 
     }
 
+
     public function storeExtra(Request $request)
     {
         // Validar los datos del formulario
         $validatedData = $request->validate([
             'extra_name' => 'required|string|max:255',
-            'extra_link' => 'required|url',
+            'extra_link' => ['required', 'regex:/^(http:\/\/|https:\/\/|www\.)\S+$/'],
             'id_tag' => 'required|exists:tags,id', 
             'id_resource' => 'required|exists:resources,id', 
         ]);
