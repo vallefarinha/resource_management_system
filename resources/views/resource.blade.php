@@ -37,8 +37,8 @@
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
 
-            @if($item->caminho_arquivo)
-            <a href="{{ route('download.arquivo', ['id' => $item->id]) }}"
+            @if($resource->link)
+            <a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
                 class="btn btn-primary rounded-circle ms-3"><i class="fa-solid fa-download"></i></a>
             @endif
 
@@ -80,12 +80,8 @@
 
     @endsection
 
+    <script src="{{ asset('js/resource.js') }}"></script>
 
 </body>
 
-<<<<<<< HEAD </html>
-    =======
-
-
 </html>
->>>>>>> 5b8a427bfed76c49e54f1fca71056c83eca2ccc0
