@@ -19,46 +19,51 @@
 <body>
     @extends('navbar')
     @section('view')
-    <div class="container pt-3">
-        <table id="collection" class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Tag</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Number of resources</th>
-                    <th scope="col">Date of creation</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($collections as $collection)
-                <tr class="cursor-pointer"
-                    onclick="window.location='{{ route('resource.resource', ['resource' => $collection->id]) }}'">
-                    <td>{{ $collection->tag->tag_name }}</td>
-                    <td>{{ $collection->type->type_name }}</td>
-                    <td>{{ $collection->title }}</td>
-                    <td>{{ $collection->countTotalExtras() }}</td>
-                    <td>{{ $collection->created_at }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="container">
+        <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"><i
+                    class="fa-solid fa-rotate-left"></i></a>
+        </div>
 
-    </div>
+        <div class="container pt-3">
+            <table id="collection" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Tag</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Number of resources</th>
+                        <th scope="col">Date of creation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($collections as $collection)
+                    <tr class="cursor-pointer"
+                        onclick="window.location='{{ route('resource.resource', ['resource' => $collection->id]) }}'">
+                        <td>{{ $collection->tag->tag_name }}</td>
+                        <td>{{ $collection->type->type_name }}</td>
+                        <td>{{ $collection->title }}</td>
+                        <td>{{ $collection->countTotalExtras() }}</td>
+                        <td>{{ $collection->created_at }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-    @endsection
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $('#collection').DataTable({
-            "order": [
-                [4, "desc"]
-            ]
+        </div>
+
+        @endsection
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            $('#collection').DataTable({
+                "order": [
+                    [4, "desc"]
+                ]
+            });
         });
-    });
-    </script>
+        </script>
 </body>
 
 
