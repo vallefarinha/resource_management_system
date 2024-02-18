@@ -80,7 +80,6 @@
 
     @endsection
 
-    <script src="{{ asset('js/resource.js') }}"></script>
 
 </body>
 
