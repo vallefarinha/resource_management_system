@@ -1,14 +1,41 @@
 <?php
 
 namespace App\Models;
+<<<<<<< HEAD
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+=======
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+>>>>>>> b84038d0e2e9234063eccb25fbd346cdde3a7e96
 
 class Resource extends Model
 {
     use HasFactory;
+<<<<<<< HEAD
+
+    protected $fillable = [
+        'title', 
+        'link', 
+        'id_user', 
+        'id_type', 
+        'id_tag'
+    ];
+
+    public function type()
+    {
+        return $this->hasOne(Type::class, 'id_type');
+    }
+
+    public function extra()
+    {
+        return $this->hasMany(Extra::class, 'id_extra');  // muchas o no?
+        
+=======
     protected $fillable = [
         'title',
         'link',
@@ -47,10 +74,17 @@ class Resource extends Model
     public function type()
     {
         return $this->belongsTo(Type::class, 'id_type');
+>>>>>>> b84038d0e2e9234063eccb25fbd346cdde3a7e96
     }
 
     public function tag()
     {
+<<<<<<< HEAD
+        return $this->hasOne(Tag::class, 'id_tag');  
+    }
+
+}
+=======
         return $this->belongsTo(Tag::class, 'id_tag');
     }
 
@@ -97,3 +131,4 @@ class Resource extends Model
         return $value;
     }
 }
+>>>>>>> b84038d0e2e9234063eccb25fbd346cdde3a7e96
