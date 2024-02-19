@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class Resource extends Model
 {
     use HasFactory;
+
 
     protected $fillable = [
         'title',
@@ -25,6 +27,16 @@ class Resource extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($resource) {
+            // Eliminar todos los extras relacionados con este recurso
+            $resource->extra()->delete();
+        });
+    }
 
     public function getCreatedAtAttribute($value)
     {

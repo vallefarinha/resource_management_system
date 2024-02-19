@@ -135,11 +135,21 @@ class ResourcesController extends Controller
         }
         $resource -> delete();
             return redirect()->route('collection')->with('success', 'Resource deleted successfully');
+    }
 
-
+    public function deleteExtra($extra)
+    {
+        try {
+            $resource = Extra::findOrFail($extra);
+            $resource->delete();
+            return redirect()->back()->with('success', 'Extra deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Oops! Try again!');
+        }
     }
 
 
+   
     public function storeExtra(Request $request)
     {
         // Validar los datos del formulario

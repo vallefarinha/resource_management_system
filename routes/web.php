@@ -13,6 +13,7 @@ Route::middleware('web')->group(function () {
 
     Route::get('/resource/{resource}', [ResourcesController::class, 'resource'])->name('resource.resource');
     Route::delete('/resource/{resource}', [ResourcesController::class, 'delete'])->name('resource.delete');
+    Route::delete('/resource/extra/{extra}', [ResourcesController::class, 'deleteExtra'])->name('resource.deleteExtra');
     Route::get('/resource/{id}/edit', [ResourcesController::class, 'edit'])->name('resource.edit');
     Route::put('/resource/{id}', [ResourcesController::class, 'update'])->name('resource.update');
     

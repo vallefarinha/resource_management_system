@@ -33,130 +33,123 @@
 
             <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-rotate-left"></i></a>
 
-  
-
-            <h5 class="card-title">{{ $resource->title }}</h5>
-            <p class="card-text">{{ $resource->user->name }}</p>
 
 
-            @if ($resource->isFile())
+                <h5 class="card-title">{{ $resource->title }}</h5>
+                <p class="card-text">{{ $resource->user->name }}</p>
 
-            <a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
-                class="btn btn-primary rounded-circle ms-3" download="{{ $resource->title }}">
-                <i class="fa-solid fa-download"></i> Download
-            </a>
 
-            @else
-            <a href="{{ $resource->link }}" class="btn btn-primary rounded-circle ms-3" target="_blank">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-            @endif
+                @if ($resource->isFile())
 
-            <!-- Container for edit and delete buttons -->
-            <div class="btn-group gap-3" role="group" aria-label="Edit and delete buttons">
-                <!-- EDIT button -->
-                <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
-                    @csrf
+                <a href="{{ route('resource.download', ['resource' => $resource->id]) }}" class="btn btn-primary rounded-circle ms-3" download="{{ $resource->title }}">
+                    <i class="fa-solid fa-download"></i> Download
+                </a>
 
-                    <button type="submit" class="btn btn-success rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-pen-to-square"></i></button>
+                @else
+                <a href="{{ $resource->link }}" class="btn btn-primary rounded-circle ms-3" target="_blank">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                @endif
 
-                </form>
+                <!-- Container for edit and delete buttons -->
+                <div class="btn-group gap-3" role="group" aria-label="Edit and delete buttons">
+                    <!-- EDIT button -->
+                    <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
+                        @csrf
 
-                <!-- DELETE button -->
+                        <button type="submit" class="btn btn-success rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-pen-to-square"></i></button>
 
-                <button type="submit" class="btn btn-warning rounded-circle"  style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#extraModal"><i class="fa-solid fa-plus"></i></button>
+                    </form>
 
-      <!-- MODAL EXTRA -->
-<div class="modal fade" id="extraModal" tabindex="-1" role="dialog" aria-labelledby="extraModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="extraModalLabel">Add Extra Link</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('resource.extra') }}" method="POST"  onsubmit="document.getElementById('submitButton').disabled = true;">
-                    @csrf
-                    <div class="form-group">
-                        <p for="id_tag">Estás añadiendo extras a {{ $resource->title }} </p>
-                        <input type="hidden" name="id_resource" value="{{ $resource->id }}">
-                        <input type="hidden" name="id_tag" value="{{ $resource->tag->id }}">
-                        <label for="extra_name">Extra name:</label>
-                        <input type="text" class="form-control" id="extra_name" name="extra_name" required>
-                        <label for="extra_link">Extra resource link:</label>
-                        <input type="url" class="form-control" id="extra_link" name="extra_link"  pattern="(?:www\..+|https?://.+)" 
-                            placeholder="http:// or www"
-                            required>
+                    <!-- DELETE button -->
+
+                    <button type="submit" class="btn btn-warning rounded-circle" style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#extraModal"><i class="fa-solid fa-plus"></i></button>
+
+                    <!-- MODAL EXTRA -->
+                    <div class="modal fade" id="extraModal" tabindex="-1" role="dialog" aria-labelledby="extraModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="extraModalLabel">Add Extra Link</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('resource.extra') }}" method="POST" onsubmit="document.getElementById('submitButton').disabled = true;">
+                                        @csrf
+                                        <div class="form-group">
+                                            <p for="id_tag">Estás añadiendo extras a {{ $resource->title }} </p>
+                                            <input type="hidden" name="id_resource" value="{{ $resource->id }}">
+                                            <input type="hidden" name="id_tag" value="{{ $resource->tag->id }}">
+                                            <label for="extra_name">Extra name:</label>
+                                            <input type="text" class="form-control" id="extra_name" name="extra_name" autocomplete="off" required>
+                                            <label for="extra_link">Extra resource link:</label>
+                                            <input type="text" class="form-control" id="extra_link" name="extra_link" title="Por favor, introduce una dirección URL" pattern="(?:www\..+|https?://.+)" placeholder="http:// or www" required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary" onclick="this.disabled=true; this.form.submit();">Submit</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" onclick="this.disabled=true; this.form.submit();">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </form> 
-            </div>
-        </div>
-    </div> 
-</div> 
-<!-- FIN MODAL EXTRA-->
+                    <!-- FIN MODAL EXTRA-->
 
 
-<form id="delete-form" action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
-    @csrf
-    @method('DELETE')
-    <button type="button" class="btn btn-danger rounded-circle" style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-</form>
+                    <form id="delete-form" action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-danger rounded-circle" style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+                    </form>
 
-        <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    <!-- Modal CONFIRM DELETE-->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" form="delete-form" class="btn btn-danger">Yes</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button type="submit" form="delete-form" class="btn btn-danger">Yes</button>
-                    </div>
+                    <!-- FIN modal confirm delete -->
+
                 </div>
             </div>
-        </div>
+
+            <!-- SHOW EXTRAS LINKS -->
+            <div class="col-md-6 mx-auto" style="text-align: left;">
+                <h2 class="mt-3 mb-3">Extras:</h2>
+                <ul class="list-group list-group-flush" style="margin-left: 0; padding-left: 0;"> 
+                    @foreach ($resource->extra as $extra)
+                    <li class="list-group-item" style="border-radius: 0; border: 1px solid #ccc;"><a href="{{ $extra->extra_link }}" target="_blank">{{ $extra->extra_name }}</a></li> 
+                    @endforeach
+                </ul>
+            </div>
+            <!-- END SHOW EXTRAS LINKS -->
 
 
+            <div class="card-footer text-body-secondary text-end">
+                Created at: {{ $resource->created_at }}
             </div>
         </div>
 
-              <!-- SHOW EXTRAS LINKS -->
-              <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h2 class="mt-4 mb-3">Extras:</h2>
-            <ul class="list-group">
-                @foreach ($resource->extra as $extra)
-                    <li class="list-group-item"><a href="{{ $extra->extra_link }}" target="_blank">{{ $extra->extra_name }}</a></li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-</div>
-            <!-- END SHOW EXTRAS LINKS -->
-      
+        @endsection
 
-        <div class="card-footer text-body-secondary text-end">
-            Created at: {{ $resource->created_at }}
-        </div>
-    </div>
-
-    @endsection
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
