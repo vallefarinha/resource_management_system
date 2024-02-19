@@ -33,7 +33,7 @@ class Resource extends Model
         parent::boot();
 
         static::deleting(function ($resource) {
-            // Eliminar todos los extras relacionados con este recurso
+            // Eliminar todos los extras relacionados
             $resource->extra()->delete();
         });
     }
