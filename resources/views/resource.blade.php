@@ -59,9 +59,6 @@
 
                 <!-- DELETE button -->
 
-                <!-- <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
-                 @csrf
-                  @method('DELETE') -->
                 <button type="submit" class="btn btn-warning rounded-circle"  style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#extraModal"><i class="fa-solid fa-plus"></i></button>
 
       <!-- MODAL EXTRA -->
@@ -101,12 +98,12 @@
 
 
 
-                <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
-                    @csrf
-                    @method('POST')
-                    <button type="submit" class="btn btn-danger rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-trash"></i></button>
+            <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-trash"></i></button>
+            </form>
 
-                </form>
 
 
             </div>
