@@ -15,10 +15,14 @@ Route::middleware('web')->group(function () {
     Route::delete('/resource/{resource}', [ResourcesController::class, 'delete'])->name('resource.delete');
     Route::get('/resource/{id}/edit', [ResourcesController::class, 'edit'])->name('resource.edit');
     Route::put('/resource/{id}', [ResourcesController::class, 'update'])->name('resource.update');
+    
+    Route::post('/resource/extra', [ResourcesController::class, 'storeExtra'])->name('resource.extra');
 
     Route::get('/download/{resource}', [ResourcesController::class, 'download'])->name('resource.download');
 
     Route::get('/back', function () {
         return redirect()->to(url()->previous());
+    
+    
     });
 });
