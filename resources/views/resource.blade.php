@@ -30,7 +30,7 @@
             {{ $resource->tag->tag_name }} · {{ $resource->type->type_name }}
         </div>
         <div class="card-body">
-feature-add-extra
+
             <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-rotate-left"></i></a>
 
   
@@ -39,8 +39,8 @@ feature-add-extra
             <p class="card-text">{{ $resource->user->name }}</p>
             @if ($resource->isFile())
             <p class="card-text">{{ $resource->link }}
-feature-add-extra
-                <a href="{{ route('resource.download', ['resource' => $resource->id]) }}" class="btn btn-primary rounded-circle ms-3"><i class="fa-solid fa-download"></i></a>
+
+                <a href="{{ route('resource.download', ['resource' => $resource->id]) }}" class="btn btn-primary rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-download"></i></a>
 
             </p>
             @else
@@ -52,71 +52,57 @@ feature-add-extra
                 <!-- EDIT button -->
                 <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
                     @csrf
-feature-add-extra
+
                     <button type="submit" class="btn btn-success rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-pen-to-square"></i></button>
 
                 </form>
 
                 <!-- DELETE button -->
 
-feature-add-extra
                 <!-- <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                  @csrf
                   @method('DELETE') -->
                 <button type="submit" class="btn btn-warning rounded-circle"  style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#extraModal"><i class="fa-solid fa-plus"></i></button>
 
-          
-    <!-- MODAL EXTRA -->
-
-    <div class="modal fade" id="extraModal" tabindex="-1" role="dialog" aria-labelledby="extraModalLabel" aria-hidden="true">
-                                 <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="extraModalLabel">Add Extra Link</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                        <form action="{{ route('resource.extra') }}" method="POST"  onsubmit="document.getElementById('submitButton').disabled = true;">
-                                                @csrf
-														<div class="form-group">
-															<p for="id_tag">Estás añadiendo extras a {{ $resource->title }} </p>
-
-															<input type="hidden" name="id_resource" value="{{ $resource->id }}">
-															<input type="hidden" name="id_tag" value="{{ $resource->tag->id }}">
-
-															<label for="extra_name">Extra name:</label>
-															<input type="text" class="form-control" id="extra_name" name="extra_name" required>
-
-															<label for="extra_link">Extra resource link:</label>
-															<input type="url" class="form-control" id="extra_link" name="extra_link"  pattern="(?:www\..+|https?://.+)" 
-                                                                placeholder="http:// or www"
-                                                                required>
-														</div>
-												
-													<div class="modal-footer">
-														<button type="submit" class="btn btn-primary"
-                                                        onclick="this.disabled=true; this.form.submit();"
-                                                        >Submit</button>
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-													</div>
-											</form> 
-                                        </div>
-                                    </div>
-                                </div> 
-                            </div> 
-
-                <!-- FIN MODAL EXTRA-->
-
-
-
+      <!-- MODAL EXTRA -->
+<div class="modal fade" id="extraModal" tabindex="-1" role="dialog" aria-labelledby="extraModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="extraModalLabel">Add Extra Link</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('resource.extra') }}" method="POST"  onsubmit="document.getElementById('submitButton').disabled = true;">
+                    @csrf
+                    <div class="form-group">
+                        <p for="id_tag">Estás añadiendo extras a {{ $resource->title }} </p>
+                        <input type="hidden" name="id_resource" value="{{ $resource->id }}">
+                        <input type="hidden" name="id_tag" value="{{ $resource->tag->id }}">
+                        <label for="extra_name">Extra name:</label>
+                        <input type="text" class="form-control" id="extra_name" name="extra_name" required>
+                        <label for="extra_link">Extra resource link:</label>
+                        <input type="url" class="form-control" id="extra_link" name="extra_link"  pattern="(?:www\..+|https?://.+)" 
+                            placeholder="http:// or www"
+                            required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" onclick="this.disabled=true; this.form.submit();">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div> 
+</div> 
+<!-- FIN MODAL EXTRA-->
 
 
 
                 <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                     @csrf
-feature-add-extra
                     @method('POST')
                     <button type="submit" class="btn btn-danger rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-trash"></i></button>
 
