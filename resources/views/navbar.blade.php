@@ -15,8 +15,7 @@
         <div class="container">
             <a class="navbar-brand" href="{{route('home')}}">
                 <img src="{!! asset('img/TT.jpg') !!}"  alt="Tech Titans Logo"
-                    width="35" height="35" class="d-inline-block align-text-top"> TT Resources Mngr
-</a>
+                    width="35" height="35" class="d-inline-block align-text-top"> TT Resources Mngr</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
