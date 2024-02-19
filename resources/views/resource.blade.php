@@ -125,10 +125,25 @@
         </div>
 
 
-
-
             </div>
         </div>
+
+              <!-- SHOW EXTRAS LINKS -->
+              <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mt-4 mb-3">Extras:</h2>
+            <ul class="list-group">
+                @foreach ($resource->extra as $extra)
+                    <li class="list-group-item"><a href="{{ $extra->extra_link }}" target="_blank">{{ $extra->extra_name }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</div>
+            <!-- END SHOW EXTRAS LINKS -->
+      
+
         <div class="card-footer text-body-secondary text-end">
             Created at: {{ $resource->created_at }}
         </div>

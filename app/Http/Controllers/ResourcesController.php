@@ -46,6 +46,7 @@ class ResourcesController extends Controller
         if (!$resource) {
             return redirect()->route('collection')->with('error', 'This file was not found!');
         }
+        $resource->load('extra');
         return view('resource', ['resource' => $resource]);
     }
 

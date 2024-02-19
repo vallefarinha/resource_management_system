@@ -55,7 +55,7 @@ class Resource extends Model
 
     public function extra()
     {
-        return $this->hasMany(Extra::class, 'id');
+        return $this->hasMany(Extra::class, 'id_resource');
 
     }
 
