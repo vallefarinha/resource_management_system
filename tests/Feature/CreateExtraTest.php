@@ -17,7 +17,7 @@ class CreateExtraTest extends TestCase
         //creo un array con los datos que enviará un formulario de extra
         $extraData = [
             'extra_name' => 'name extra test',
-            'extra_link' => 'https://www.google.com',
+            'extra_link' => 'sdfs',
             'id_tag'=> '1',
             'id_resource'=> '1'
         ];
