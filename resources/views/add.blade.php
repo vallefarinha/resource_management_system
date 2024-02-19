@@ -13,8 +13,10 @@
 
     @section('view')
     <div class="container">
-        <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"><i
-                    class="fa-solid fa-rotate-left"></i></a>
+        <div class="container d-flex">
+            <a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"
+                style="width: 40px; height: 40px; line-height: 24px;">
+                <i class="fa-solid fa-rotate-left" style="font-size: 14px; "></i></a>
         </div>
 
         <h1 class="m-5">Add your contribution</h1>
@@ -53,16 +55,22 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <label for="file" class="form-label">What do you want to add?</label>
-                <select name="file" class="form-select" required>
-                    <option selected>File</option>
-                    <option selected>Link</option>
+                <label for="addType" class="form-label">What do you want to add?</label>
+                <select id="addType" name="addType" class="form-select" required>
+                    <option value="file">File</option>
+                    <option value="link">Link</option>
                 </select>
             </div>
-            <!-- <div class="col-md-12 mt-4">
-                <input type="file" name="link" class="form-control" aria-label="file example" required>
-                <div class="invalid-feedback">Please choose a file</div>
-            </div> -->
+
+            <div class="col-md-6" id="fileInput" style="display:none;">
+                <label for="file" class="form-label">Select File</label>
+                <input type="file" name="file" class="form-control">
+            </div>
+
+            <div class="col-md-6" id="linkInput" style="display:none;">
+                <label for="link" class="form-label">Enter Link</label>
+                <input type="text" name="link" class="form-control">
+            </div>
 
             <div class="col-12 mt-4">
                 <button type="submit" class="btn btn-primary is-invalid">Add</button>
@@ -80,8 +88,20 @@
     </div>
 
     @endsection
-    <script src="{{ asset('js/add.js') }}"></script>
 
+
+    <script>
+    document.getElementById('addType').addEventListener('change', function() {
+        var addType = this.value;
+        if (addType === 'file') {
+            document.getElementById('fileInput').style.display = 'block';
+            document.getElementById('linkInput').style.display = 'none';
+        } else if (addType === 'link') {
+            document.getElementById('fileInput').style.display = 'none';
+            document.getElementById('linkInput').style.display = 'block';
+        }
+    });
+    </script>
 </body>
 
 
