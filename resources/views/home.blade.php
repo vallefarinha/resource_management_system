@@ -12,8 +12,9 @@
 <body>
     @extends('navbar')
     @section('view')
-    <div class="container min-vh-100 d-flex text-center align-items-center">
-        <div class="jumbotron">
+   
+    <div class="container min-vh-100 d-flex text-center align-items-start mt-5">
+        <div class="jumbotron my-5">
             <h1 class="display-1">Welcome!</h1>
             <p class="lead fs-3">Welcome to our resource management platform! An easy wat to add and explore resources shared by your peers to enhance your learning journey!</p>
             <hr class="my-5">
