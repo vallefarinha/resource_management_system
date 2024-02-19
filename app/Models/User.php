@@ -13,12 +13,18 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+<<<<<<< HEAD
+=======
         'password',
+>>>>>>> b84038d0e2e9234063eccb25fbd346cdde3a7e96
         'login',
         'privilege',
         'github',
         'linkedin',
+<<<<<<< HEAD
+=======
         'remember_token',
+>>>>>>> b84038d0e2e9234063eccb25fbd346cdde3a7e96
     ];
 
     protected $hidden = [
@@ -29,9 +35,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     public function resource()
     {
         return $this->hasMany(Resource::class, 'id_user');
     }
+
 }

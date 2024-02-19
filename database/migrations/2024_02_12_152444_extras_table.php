@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('id_tag')->references('id')->on('tags')->onDelete('cascade');
             $table->unsignedBigInteger('id_resource');
             $table->foreign('id_resource')->references('id')->on('resources')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
