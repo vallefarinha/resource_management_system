@@ -37,18 +37,14 @@
 
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
-
-
             @if ($resource->isFile())
+            <p class="card-text">{{ $resource->link }}
 
-            <a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
-                class="btn btn-primary rounded-circle ms-3" download="{{ $resource->title }}">
-                <i class="fa-solid fa-download"></i> Download
-            </a>
+                <a href="{{ route('resource.download', ['resource' => $resource->id]) }}" class="btn btn-primary rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-download"></i></a>
 
+            </p>
             @else
-            <a href="{{ $resource->link }}" class="btn btn-primary rounded-circle ms-3" target="_blank">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <p class="card-text">{{ $resource->link }}</p>
             @endif
 
             <!-- Container for edit and delete buttons -->
@@ -143,5 +139,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
 </body>
+
+
 
 </html>
