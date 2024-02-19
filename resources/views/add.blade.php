@@ -90,18 +90,6 @@
     @endsection
 
 
-    <script>
-    document.getElementById('addType').addEventListener('change', function() {
-        var addType = this.value;
-        if (addType === 'file') {
-            document.getElementById('fileInput').style.display = 'block';
-            document.getElementById('linkInput').style.display = 'none';
-        } else if (addType === 'link') {
-            document.getElementById('fileInput').style.display = 'none';
-            document.getElementById('linkInput').style.display = 'block';
-        }
-    });
-    </script>
 </body>
 
 
