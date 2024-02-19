@@ -5,15 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TT Resources Manager</title>
+
 </head>
 
 <body>
     @extends('navbar')
 
-    @section('navbar')
+    @section('view')
     <div class="container">
+        <div class="container d-flex">
+            <a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"
+                style="width: 40px; height: 40px; line-height: 24px;">
+                <i class="fa-solid fa-rotate-left" style="font-size: 14px; "></i></a>
+        </div>
+
         <h1 class="m-5">Add your contribution</h1>
-        <form class="row g-3 m-5" action="{{ route('store_resource') }}" method="POST" enctype="multipart/form-data">
+        <form class="row g-3 m-5" action="{{ route('store.resource') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="col-8">
                 <label for="title" class="form-label">Title</label>
@@ -47,9 +54,22 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-12 mt-4">
-                <input type="file" name="link" class="form-control" aria-label="file example" required>
-                <div class="invalid-feedback">Please choose a file</div>
+            <div class="form-group col-md-6">
+                <label for="select-type" class="form-label">What do you want to add?</label>
+                <select id="select-type" name="select-type" class="form-select" required>
+                    <option value="file">File</option>
+                    <option value="link">Link</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-6" id="file_field">
+                <label for=" file" class="form-label">Select File</label>
+                <input type="file" name="file" class="form-control">
+            </div>
+
+            <div class="form-group col-md-6" id="link_field" style="display: none;">
+                <label for="link" class="form-label">Enter Link</label>
+                <input type="link" name="link" class="form-control">
             </div>
 
             <div class="col-12 mt-4">
@@ -68,9 +88,10 @@
     </div>
 
     @endsection
+
+    <script src="{{ asset('js/add.js') }}"></script>
+
 </body>
-
-
 
 
 </html>

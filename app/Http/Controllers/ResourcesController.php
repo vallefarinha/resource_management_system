@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
+
 use App\Models\Resource;
+use App\Models\Extra;
+use App\DataTables\CollectionDataTable;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+
 
 class ResourcesController extends Controller
 {
-    //home
+    // Show the home view
     public function home()
     {
-        return View('home');
+        return view('home');
     }
 
-    //add
+    // Show the form for adding a new resource
     public function add()
     {
         $users = User::all();
@@ -26,93 +32,152 @@ class ResourcesController extends Controller
         return view('add', compact('users', 'tags', 'types'));
     }
 
-    //collection
+    // Show the collection of resources
     public function collection()
     {
-        return View('collection');
+        $collection = Resource::with('tag', 'type', 'user')->get();
+        return view('collection', ['collections' => $collection]);
     }
 
-    //resource
-    public function resource()
+
+    // Show a single resource
+    public function resource(Resource $resource)
     {
-        return View('resource');
+        if (!$resource) {
+            return redirect()->route('collection')->with('error', 'This file was not found!');
+        }
+        $resource->load('extra');
+        return view('resource', ['resource' => $resource]);
     }
 
 
     public function store(Request $request)
     {
-        // Validação dos dados recebidos
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'id_type' => 'required|integer',
             'id_tag' => 'required|integer',
             'id_user' => 'required|integer',
-            'link' => 'required|file',
-        ], [
-            // Mensagens de erro personalizadas, se desejar
-            'title.required' => 'O campo título é obrigatório.',
-            'id_type.required' => 'O campo tipo é obrigatório.',
-            'id_tag.required' => 'O campo tag é obrigatório.',
-            'id_user.required' => 'O campo usuário é obrigatório.',
-            'link.required' => 'O campo link é obrigatório.',
-            'link.file' => 'O campo link deve ser um arquivo.',
         ]);
-        if (in_array(null, $validatedData, true)) {
-            return redirect()->route('add')->with('error', 'Por favor, preencha todos os campos.');
+
+        $resource = new Resource();
+        $resource->title = $validatedData['title'];
+        $resource->id_type = $validatedData['id_type'];
+        $resource->id_tag = $validatedData['id_tag'];
+        $resource->id_user = $validatedData['id_user'];
+
+        if ($request->input('select-type') === 'link') {
+            $resource->link = $request->input('link');
+        } else {
+            if ($request->hasFile('file')) {
+                $filePath = $request->file('file')->store('uploads');
+                $resource->link = $filePath;
+            } else {
+                return redirect()->route('add')->with('error', 'Please select a file')->withErrors($resource->errors());
+            }
         }
-    $filePath = $request->file('link')->store('uploads');
 
-    $resource = new Resource();
-    $resource->title = $validatedData['title'];
-    $resource->id_type = $validatedData['id_type'];
-    $resource->id_tag = $validatedData['id_tag'];
-    $resource->id_user = $validatedData['id_user'];
-    $resource->link = $filePath;
-
-
-
-    if ($resource->save()) {
-        return redirect()->route('store_resource')->with('success', 'Your file was sent');
-    } else {
-        return redirect()->route('store_resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+        if ($resource->save()) {
+            return redirect()->route('collection')->with('success', 'Your resource was added successfully');
+        } else {
+            return redirect()->route('add')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+        }
     }
-}
 
-
-    // public function index()
-    // {
-    //     // Teste para verificar se os dados estão sendo recuperados corretamente
-    //     $tags = Tag::all();
-    //     dd($tags); // Isso irá imprimir os dados recuperados na tela para verificar
-
-    //     // Se os dados estão sendo exibidos corretamente, passe-os para a vista
-    //     return view('add', compact('tags'));
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Show the form for editing a resource
+    public function edit($id)
     {
-        //
+        $resource = Resource::findOrFail($id);
+        $users = User::all();
+        $tags = Tag::all();
+        $types = Type::all();
+        return view('edit', compact('resource', 'users', 'tags', 'types'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Update an existing resource
+    public function update(Request $request, $id)
     {
-        //
+        $resource = Resource::findOrFail($id);
+        $originalData = $resource->toArray();
+        $resource->update($request->all());
+        $updatedData = $resource->toArray();
+
+        if ($originalData === $updatedData) {
+            return redirect()->route('resource.resource', ['resource' => $resource])->with('warning', 'No changes were made.');
+        } else {
+            return redirect()->route('resource.resource', ['resource' => $resource])->with('success', 'Your resource has successfully updated!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function delete(string $id)
+    public function download($id)
     {
-        //
+        $resource = Resource::findOrFail($id);
+
+        if (!$resource->isFile()) {
+            return redirect()->away($resource->link);
+        }
+
+        $filePath = $resource->getFilePath($resource->link);
+
+        if (Storage::exists($filePath)) {
+            return Storage::download($filePath, $resource->title);
+        } else {
+            return back()->with('error', 'File not found');
+        }
     }
+
+
+   public function delete($id)
+    {
+        $resource = Resource::find($id);
+        if (!$resource) {
+            return redirect()->route('resource.delete')->with('error', 'This file is not found!');
+        }
+        $resource -> delete();
+            return redirect()->route('collection')->with('success', 'Resource deleted successfully');
+    }
+
+    public function deleteExtra($extra)
+    {
+        try {
+            $resource = Extra::findOrFail($extra);
+            $resource->delete();
+            return redirect()->back()->with('success', 'Extra deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Oops! Try again!');
+        }
+    }
+
+
+   
+    public function storeExtra(Request $request)
+    {
+        // Validar los datos del formulario
+        $validatedData = $request->validate([
+            'extra_name' => 'required|string|max:255',
+            'extra_link' => ['required', 'regex:/^(http:\/\/|https:\/\/|www\.)\S+$/'],
+            'id_tag' => 'required|exists:tags,id', 
+            'id_resource' => 'required|exists:resources,id', 
+        ]);
+      
+        if (in_array(null, $validatedData, true)) {
+            return redirect()->route('resource.extra')->with('error', 'Please add extra link');
+        }
+    
+        // Crear una nueva instancia de Extra y asignar los valores
+        $extra = new Extra();
+        $extra->extra_name = $request->input('extra_name');
+        $extra->extra_link = $request->input('extra_link');
+        $extra->id_tag = $request->input('id_tag'); 
+        $extra->id_resource = $request->input('id_resource'); 
+        $extra->created_at = now();
+        $extra->updated_at = now();
+    
+        if ($extra->save()) {
+            return redirect()->back()->with('success', 'Extra added successfully!');
+        } else {
+            return redirect()->back()->with('error', 'Oops! Try again!')->withErrors($extra->errors()->all());
+        }
+    }
+
 }

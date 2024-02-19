@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class Resource extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'title',
         'link',
@@ -19,28 +19,81 @@ class Resource extends Model
         'updated_at',
     ];
 
-    public $timestamps = false;
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
 
-// tiene campos que son foraneas relacionados con claves primarias de tabla tag, extra y user
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($resource) {
+            // Eliminar todos los extras relacionados
+            $resource->extra()->delete();
+        });
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y H:i');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y H:i');
+    }
+
     public function type()
     {
         return $this->belongsTo(Type::class, 'id_type');
     }
 
-   public function tag()
+    public function tag()
     {
-        return $this->belongsTo(Tag::class, 'id_tag');  
+        return $this->belongsTo(Tag::class, 'id_tag');
     }
 
     public function user()
     {
-        return $this->belongsTo(Tag::class, 'id_user');  
-        
+        return $this->belongsTo(User::class, 'id_user');
     }
-// el PK de nuestra tabla es FK de extra
-    public function extra()
+
+   public function tag()
     {
-        return $this->hasMany(Extra::class, 'id_extra');  // muchas o no?
-        
+        return $this->hasMany(Extra::class, 'id_resource');
+    }
+
+    public function countTotalExtras()
+    {
+        $total = 1;
+        $extras = $this->extra()->get();
+        $total += $this->extra()->count();
+        return $total;
+    }
+
+    public function isFile()
+    {
+        $filePath = $this->getFilePath($this->link);
+        return Storage::exists($filePath);
+    }
+
+    protected function getFilePath($link): string
+    {
+        $link = trim($link);
+        $link = strip_tags($link);
+        $link = htmlspecialchars($link, ENT_QUOTES);
+        return $link;
+    }
+
+    public function getLinkAttribute($value)
+    {
+        if (!preg_match('/^(http|https):\/\//', $value)) {
+            $value = 'http://' . $value;
+        }
+        $value = trim($value);
+        $value = strip_tags($value);
+        $value = htmlspecialchars($value, ENT_QUOTES);
+        return $value;
     }
 }

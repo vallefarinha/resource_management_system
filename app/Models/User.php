@@ -30,10 +30,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-      // su clave primaria esta realcionada con la clave id_user  en tabla resources
-      public function resource()
+    public function resource()
     {
-        return $this->hasOne(Resource::class, 'id_user');
+        return $this->hasMany(Resource::class, 'id_user');
     }
-}
+
 }
