@@ -9,7 +9,7 @@ use App\Models\Type;
 use App\Models\Resource;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
+
 
 
 class ResourcesController extends Controller
