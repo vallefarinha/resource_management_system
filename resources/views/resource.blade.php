@@ -31,7 +31,7 @@
         </div>
         <div class="card-body">
 feature-add-extra
-            <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"><i class="fa-solid fa-rotate-left"></i></a>
+            <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-rotate-left"></i></a>
 
   
 
@@ -53,7 +53,7 @@ feature-add-extra
                 <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
                     @csrf
 feature-add-extra
-                    <button type="submit" class="btn btn-success rounded-circle"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button type="submit" class="btn btn-success rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-pen-to-square"></i></button>
 
                 </form>
 
@@ -63,7 +63,7 @@ feature-add-extra
                 <!-- <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                  @csrf
                   @method('DELETE') -->
-                <button type="submit" class="btn btn-warning rounded-circle" data-toggle="modal" data-target="#extraModal"><i class="fa-solid fa-plus"></i></button>
+                <button type="submit" class="btn btn-warning rounded-circle"  style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#extraModal"><i class="fa-solid fa-plus"></i></button>
 
           
     <!-- MODAL EXTRA -->
@@ -118,7 +118,7 @@ feature-add-extra
                     @csrf
 feature-add-extra
                     @method('POST')
-                    <button type="submit" class="btn btn-danger rounded-circle"><i class="fa-solid fa-trash"></i></button>
+                    <button type="submit" class="btn btn-danger rounded-circle" style="width: 40px; height: 40px; line-height: 24px;"><i class="fa-solid fa-trash"></i></button>
 
                 </form>
 
