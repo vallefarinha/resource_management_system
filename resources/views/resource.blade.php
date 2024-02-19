@@ -37,11 +37,16 @@
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
 
-            @if($resource->link)
-            <a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
-                class="btn btn-primary rounded-circle ms-3"><i class="fa-solid fa-download"></i></a>
-            @endif
 
+            @if ($resource->isFile())
+            <a href="{{ route('resource.download', ['resource' => $resource->id]) }}"
+                class="btn btn-primary rounded-circle ms-3" download="{{ $resource->title }}">
+                <i class="fa-solid fa-download"></i> Download
+            </a>
+            @else
+            <a href="{{ $resource->link }}" class="btn btn-primary rounded-circle ms-3" target="_blank">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            @endif
 
             <!-- Container for edit and delete buttons -->
             <div class="btn-group gap-3" role="group" aria-label="Edit and delete buttons">

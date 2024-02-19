@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\Type;
+
 use App\Models\Resource;
-
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Http\Request;
 
 
 class ResourcesController extends Controller
@@ -54,29 +54,31 @@ class ResourcesController extends Controller
             'id_type' => 'required|integer',
             'id_tag' => 'required|integer',
             'id_user' => 'required|integer',
-            'link' => 'required|file',
         ]);
-
-        if (in_array(null, $validatedData, true)) {
-            return redirect()->route('add')->with('error', 'Please fill in all fields.');
-        }
-
-        $filePath = $request->file('link')->store('uploads');
 
         $resource = new Resource();
         $resource->title = $validatedData['title'];
         $resource->id_type = $validatedData['id_type'];
         $resource->id_tag = $validatedData['id_tag'];
         $resource->id_user = $validatedData['id_user'];
-        $resource->link = $filePath;
+
+        if ($request->input('select-type') === 'link') {
+            $resource->link = $request->input('link');
+        } else {
+            if ($request->hasFile('file')) {
+                $filePath = $request->file('file')->store('uploads');
+                $resource->link = $filePath;
+            } else {
+                return redirect()->route('add')->with('error', 'Please select a file')->withErrors($resource->errors());
+            }
+        }
 
         if ($resource->save()) {
-            return redirect()->route('store.resource')->with('success', 'Your file was sent');
+            return redirect()->route('collection')->with('success', 'Your resource was added successfully');
         } else {
-            return redirect()->route('store.resource')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
+            return redirect()->route('add')->with('error', 'Oops! Try again!')->withErrors($resource->errors());
         }
     }
-
 
     // Show the form for editing a resource
     public function edit($id)
@@ -105,15 +107,21 @@ class ResourcesController extends Controller
 
     public function download($id)
     {
-        $item = Resource::findOrFail($id);
+        $resource = Resource::findOrFail($id);
 
-        if (pathinfo($item->link, PATHINFO_EXTENSION) !== '') {
-            $filePath = public_path($item->link);
-            return response()->download($filePath);
+        if (!$resource->isFile()) {
+            return redirect()->away($resource->link);
+        }
+
+        $filePath = $resource->getFilePath($resource->link);
+
+        if (Storage::exists($filePath)) {
+            return Storage::download($filePath, $resource->title);
         } else {
-            return redirect()->away($item->link);
+            return back()->with('error', 'File not found');
         }
     }
+
 
    public function delete($id)
     {

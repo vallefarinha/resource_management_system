@@ -54,7 +54,7 @@
 
             <div class="form-group col-md-6">
                 <label for="select-type" class="form-label">What do you want to add?</label>
-                <select id="select-type" name="select-type" class="form-control" required>
+                <select id="select-type" name="select-type" class="form-select" required>
                     <option value="file">File</option>
                     <option value="link">Link</option>
                 </select>
@@ -65,8 +65,8 @@
                 <input type="file" name="file" class="form-control">
             </div>
 
-            <div class="form-group col-md-6" id="link_field">
-                <label for=" link" class="form-label">Enter Link</label>
+            <div class="form-group col-md-6" id="link_field" style="display: none;">
+                <label for="link" class="form-label">Enter Link</label>
                 <input type="link" name="link" class="form-control">
             </div>
 
