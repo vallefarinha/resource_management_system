@@ -147,7 +147,8 @@ class ResourcesController extends Controller
             return redirect()->route('resource.delete')->with('error', 'This file is not found!');
         }
         $resource -> delete();
-            return redirect()->route('collection')->with('success', 'File deleted successfully!');
+            return redirect()->route('collection')->with('success', 'Resource deleted successfully');
+
 
     }
 
