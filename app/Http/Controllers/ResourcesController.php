@@ -8,6 +8,9 @@ use App\Models\Tag;
 use App\Models\Type;
 
 use App\Models\Resource;
+use App\Models\Extra;
+use App\DataTables\CollectionDataTable;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -129,8 +132,41 @@ class ResourcesController extends Controller
         if (!$resource) {
             return redirect()->route('resource.delete')->with('error', 'This file is not found!');
         }
-        $resource->delete();
-        return redirect()->route('collection')->with('success', 'File deleted successfully!');
+        $resource -> delete();
+            return redirect()->route('collection')->with('success', 'Resource deleted successfully');
+
+
+    }
+
+
+    public function storeExtra(Request $request)
+    {
+        // Validar los datos del formulario
+        $validatedData = $request->validate([
+            'extra_name' => 'required|string|max:255',
+            'extra_link' => ['required', 'regex:/^(http:\/\/|https:\/\/|www\.)\S+$/'],
+            'id_tag' => 'required|exists:tags,id', 
+            'id_resource' => 'required|exists:resources,id', 
+        ]);
+      
+        if (in_array(null, $validatedData, true)) {
+            return redirect()->route('resource.extra')->with('error', 'Please add extra link');
+        }
+    
+        // Crear una nueva instancia de Extra y asignar los valores
+        $extra = new Extra();
+        $extra->extra_name = $request->input('extra_name');
+        $extra->extra_link = $request->input('extra_link');
+        $extra->id_tag = $request->input('id_tag'); 
+        $extra->id_resource = $request->input('id_resource'); 
+        $extra->created_at = now();
+        $extra->updated_at = now();
+    
+        if ($extra->save()) {
+            return redirect()->back()->with('success', 'Extra added successfully!');
+        } else {
+            return redirect()->back()->with('error', 'Oops! Try again!')->withErrors($extra->errors()->all());
+        }
     }
 
 }
