@@ -30,14 +30,18 @@
             {{ $resource->tag->tag_name }} · {{ $resource->type->type_name }}
         </div>
         <div class="card-body">
+feature-add-extra
             <div class="container d-flex"><a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"><i class="fa-solid fa-rotate-left"></i></a>
-            </div>
+
+  
 
             <h5 class="card-title">{{ $resource->title }}</h5>
             <p class="card-text">{{ $resource->user->name }}</p>
             @if ($resource->isFile())
             <p class="card-text">{{ $resource->link }}
+feature-add-extra
                 <a href="{{ route('resource.download', ['resource' => $resource->id]) }}" class="btn btn-primary rounded-circle ms-3"><i class="fa-solid fa-download"></i></a>
+
             </p>
             @else
             <p class="card-text">{{ $resource->link }}</p>
@@ -48,11 +52,14 @@
                 <!-- EDIT button -->
                 <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
                     @csrf
+feature-add-extra
                     <button type="submit" class="btn btn-success rounded-circle"><i class="fa-solid fa-pen-to-square"></i></button>
+
                 </form>
 
                 <!-- DELETE button -->
 
+feature-add-extra
                 <!-- <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                  @csrf
                   @method('DELETE') -->
@@ -106,10 +113,13 @@
 
 
 
-                <form action="" method="POST">
+
+                <form action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                     @csrf
+feature-add-extra
                     @method('POST')
                     <button type="submit" class="btn btn-danger rounded-circle"><i class="fa-solid fa-trash"></i></button>
+
                 </form>
 
 
