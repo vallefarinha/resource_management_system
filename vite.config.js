@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
@@ -11,4 +12,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            '@images': resolve(__dirname, 'public/img'),
+        },
+    },
 });

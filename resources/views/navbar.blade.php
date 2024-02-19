@@ -14,9 +14,9 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
         <div class="container">
             <a class="navbar-brand" href="{{route('home')}}">
-                <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap Logo"
-                    width="30" height="24" class="d-inline-block align-text-top"> TT Resources Mngr
-            </a>
+                <img src="{!! asset('img/TT.jpg') !!}"  alt="Tech Titans Logo"
+                    width="35" height="35" class="d-inline-block align-text-top"> TT Resources Mngr
+</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
