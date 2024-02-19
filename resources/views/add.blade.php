@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TT Resources Manager</title>
+
 </head>
 
 <body>
@@ -13,10 +14,11 @@
     @section('view')
     <div class="container">
         <div class="container d-flex">
-            <a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3" style="width: 40px; height: 40px; line-height: 24px;">
+            <a href="{{ url()->previous() }}" class="btn btn-light rounded-circle ms-3"
+                style="width: 40px; height: 40px; line-height: 24px;">
                 <i class="fa-solid fa-rotate-left" style="font-size: 14px; "></i></a>
         </div>
-      
+
         <h1 class="m-5">Add your contribution</h1>
         <form class="row g-3 m-5" action="{{ route('store.resource') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -52,22 +54,22 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-6">
-                <label for="addType" class="form-label">What do you want to add?</label>
-                <select id="addType" name="addType" class="form-select" required>
+            <div class="form-group col-md-6">
+                <label for="select-type" class="form-label">What do you want to add?</label>
+                <select id="select-type" name="select-type" class="form-select" required>
                     <option value="file">File</option>
                     <option value="link">Link</option>
                 </select>
             </div>
 
-            <div class="col-md-6" id="fileInput" style="display:none;">
-                <label for="file" class="form-label">Select File</label>
+            <div class="form-group col-md-6" id="file_field">
+                <label for=" file" class="form-label">Select File</label>
                 <input type="file" name="file" class="form-control">
             </div>
 
-            <div class="col-md-6" id="linkInput" style="display:none;">
+            <div class="form-group col-md-6" id="link_field" style="display: none;">
                 <label for="link" class="form-label">Enter Link</label>
-                <input type="text" name="link" class="form-control">
+                <input type="link" name="link" class="form-control">
             </div>
 
             <div class="col-12 mt-4">
@@ -87,19 +89,9 @@
 
     @endsection
 
+    <script src="{{ asset('js/add.js') }}"></script>
 
-    <script>
-    document.getElementById('addType').addEventListener('change', function() {
-        var addType = this.value;
-        if (addType === 'file') {
-            document.getElementById('fileInput').style.display = 'block';
-            document.getElementById('linkInput').style.display = 'none';
-        } else if (addType === 'link') {
-            document.getElementById('fileInput').style.display = 'none';
-            document.getElementById('linkInput').style.display = 'block';
-        }
-    });
-    </script>
 </body>
+
 
 </html>
