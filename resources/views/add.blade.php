@@ -84,7 +84,6 @@
         </div>
         @endif
 
-
     </div>
 
     @endsection
@@ -92,6 +91,5 @@
     <script src="{{ asset('js/add.js') }}"></script>
 
 </body>
-
 
 </html>

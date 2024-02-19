@@ -10,10 +10,8 @@
 <body>
 
     @extends('navbar')
-
     @section('view')
 
-    <!-- Success alert message -->
     @if (session('success'))
     <div id="liveAlertPlaceholder">
         <div>
@@ -52,9 +50,6 @@
                     <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                 @endif
 
-                <!-- Container for edit and delete buttons -->
-
-                <!-- EDIT button -->
                 <form method="GET" action="{{ route('resource.edit', ['id' => $resource->id]) }}">
                     @csrf
 
@@ -62,11 +57,9 @@
 
                 </form>
 
-                <!-- DELETE button -->
-
                 <button type="submit" class="btn btn-warning rounded-circle" style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#extraModal"><i class="fa-solid fa-plus"></i></button>
 
-                <!-- MODAL EXTRA -->
+      
                 <div class="modal fade" id="extraModal" tabindex="-1" role="dialog" aria-labelledby="extraModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -97,8 +90,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- FIN MODAL EXTRA-->
-
 
                 <form id="delete-form" action="{{ route('resource.delete', ['resource' => $resource->id]) }}" method="POST">
                     @csrf
@@ -106,7 +97,6 @@
                     <button type="button" class="btn btn-danger rounded-circle" style="width: 40px; height: 40px; line-height: 24px;" data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
                 </form>
 
-                <!-- Modal CONFIRM DELETE-->
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -126,12 +116,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- FIN modal confirm delete -->
 
             </div>
         </div>
 
-        <!-- SHOW EXTRAS LINKS -->
         <div class="col-md-6 mx-auto" style="text-align: left;">
             <h2 class="mt-3 mb-3">Extras:</h2>
             <ul class="list-group list-group-flush" style="margin-left: 0; padding-left: 0;">
@@ -140,8 +128,6 @@
                 @endforeach
             </ul>
         </div>
-        <!-- END SHOW EXTRAS LINKS -->
-
 
         <div class="card-footer text-body-secondary text-end">
             Created at: {{ $resource->created_at }}

@@ -35,15 +35,11 @@
             </select>
         </div>
 
-
-
         <div class="col-12 mt-4">
             <button type="submit" class="btn btn-primary">Update</button>
         </div>
     </form>
 
-
-    <!-- SHOW EXTRAS LINKS -->
     <div class="col-md-6 mx-auto" style="text-align: left;">
         <h2 class="mt-3 mb-3">Extras:</h2>
         <ul class="list-group list-group-flush" style="margin-left: 0; padding-left: 0;">
@@ -52,7 +48,6 @@
                 <form action="{{ route('resource.deleteExtra', ['extra' => $extra->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <!-- Botón para activar el modal de confirmación -->
                     <button type="submit" class="btn btn-outline-secondary btn-sm" style="font-size: 0.5rem;" data-toggle="modal" data-target="#deleteExtraModal" data-extra-id="{{ $extra->id }}">
                         <i class="fas fa-times"></i>
                     </button>
@@ -62,10 +57,6 @@
             @endforeach
         </ul>
     </div>
-    <!-- END SHOW EXTRAS LINKS -->
-
-
-
 
     @if (session('success'))
     <div class="alert alert-success">

@@ -17,13 +17,11 @@ use Illuminate\Http\Request;
 
 class ResourcesController extends Controller
 {
-    // Show the home view
     public function home()
     {
         return view('home');
     }
 
-    // Show the form for adding a new resource
     public function add()
     {
         $users = User::all();
@@ -32,15 +30,12 @@ class ResourcesController extends Controller
         return view('add', compact('users', 'tags', 'types'));
     }
 
-    // Show the collection of resources
     public function collection()
     {
         $collection = Resource::with('tag', 'type', 'user')->get();
         return view('collection', ['collections' => $collection]);
     }
 
-
-    // Show a single resource
     public function resource(Resource $resource)
     {
         if (!$resource) {
@@ -84,7 +79,6 @@ class ResourcesController extends Controller
         }
     }
 
-    // Show the form for editing a resource
     public function edit($id)
     {
         $resource = Resource::findOrFail($id);
@@ -94,7 +88,6 @@ class ResourcesController extends Controller
         return view('edit', compact('resource', 'users', 'tags', 'types'));
     }
 
-    // Update an existing resource
     public function update(Request $request, $id)
     {
         $resource = Resource::findOrFail($id);
@@ -152,7 +145,6 @@ class ResourcesController extends Controller
    
     public function storeExtra(Request $request)
     {
-        // Validar los datos del formulario
         $validatedData = $request->validate([
             'extra_name' => 'required|string|max:255',
             'extra_link' => ['required', 'regex:/^(http:\/\/|https:\/\/|www\.)\S+$/'],
@@ -164,7 +156,6 @@ class ResourcesController extends Controller
             return redirect()->route('resource.extra')->with('error', 'Please add extra link');
         }
     
-        // Crear una nueva instancia de Extra y asignar los valores
         $extra = new Extra();
         $extra->extra_name = $request->input('extra_name');
         $extra->extra_link = $request->input('extra_link');
