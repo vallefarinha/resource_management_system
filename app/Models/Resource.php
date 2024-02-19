@@ -59,10 +59,6 @@ class Resource extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
-   public function tag()
-    {
-        return $this->hasMany(Extra::class, 'id_resource');
-    }
 
     public function countTotalExtras()
     {
